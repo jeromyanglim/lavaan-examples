@@ -1,0 +1,1091 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0014)about:internet -->
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+<title>Check data</title>
+
+<base target="_blank"/>
+
+<style type="text/css">
+body, td {
+   font-family: sans-serif;
+   background-color: white;
+   font-size: 12px;
+   margin: 8px;
+}
+
+tt, code, pre {
+   font-family: 'DejaVu Sans Mono', 'Droid Sans Mono', 'Lucida Console', Consolas, Monaco, monospace;
+}
+
+h1 { 
+   font-size:2.2em; 
+}
+
+h2 { 
+   font-size:1.8em; 
+}
+
+h3 { 
+   font-size:1.4em; 
+}
+
+h4 { 
+   font-size:1.0em; 
+}
+
+h5 { 
+   font-size:0.9em; 
+}
+
+h6 { 
+   font-size:0.8em; 
+}
+
+a:visited {
+   color: rgb(50%, 0%, 50%);
+}
+
+pre {	
+   margin-top: 0;
+   max-width: 95%;
+   border: 1px solid #ccc;
+}
+
+pre code {
+   display: block; padding: 0.5em;
+}
+
+code.r {
+   background-color: #F8F8F8;
+}
+
+table, td, th {
+  border: none;
+}
+
+blockquote {
+   color:#666666;
+   margin:0;
+   padding-left: 1em;
+   border-left: 0.5em #EEE solid;
+}
+
+hr {
+   height: 0px;
+   border-bottom: none;
+   border-top-width: thin;
+   border-top-style: dotted;
+   border-top-color: #999999;
+}
+
+@media print {
+   * { 
+      background: transparent !important; 
+      color: black !important; 
+      filter:none !important; 
+      -ms-filter: none !important; 
+   }
+
+   body { 
+      font-size:12pt; 
+      max-width:100%; 
+   }
+       
+   a, a:visited { 
+      text-decoration: underline; 
+   }
+
+   hr { 
+      visibility: hidden;
+      page-break-before: always;
+   }
+
+   pre, blockquote { 
+      padding-right: 1em; 
+      page-break-inside: avoid; 
+   }
+
+   tr, img { 
+      page-break-inside: avoid; 
+   }
+
+   img { 
+      max-width: 100% !important; 
+   }
+
+   @page :left { 
+      margin: 15mm 20mm 15mm 10mm; 
+   }
+     
+   @page :right { 
+      margin: 15mm 10mm 15mm 20mm; 
+   }
+
+   p, h2, h3 { 
+      orphans: 3; widows: 3; 
+   }
+
+   h2, h3 { 
+      page-break-after: avoid; 
+   }
+}
+
+</style>
+
+<!-- Styles for R syntax highlighter -->
+<style type="text/css">
+   pre .operator,
+   pre .paren {
+     color: rgb(104, 118, 135)
+   }
+
+   pre .literal {
+     color: rgb(88, 72, 246)
+   }
+
+   pre .number {
+     color: rgb(0, 0, 205);
+   }
+
+   pre .comment {
+     color: rgb(76, 136, 107);
+   }
+
+   pre .keyword {
+     color: rgb(0, 0, 255);
+   }
+
+   pre .identifier {
+     color: rgb(0, 0, 0);
+   }
+
+   pre .string {
+     color: rgb(3, 106, 7);
+   }
+</style>
+
+<!-- R syntax highlighter -->
+<script type="text/javascript">
+var hljs=new function(){function m(p){return p.replace(/&/gm,"&amp;").replace(/</gm,"&lt;")}function f(r,q,p){return RegExp(q,"m"+(r.cI?"i":"")+(p?"g":""))}function b(r){for(var p=0;p<r.childNodes.length;p++){var q=r.childNodes[p];if(q.nodeName=="CODE"){return q}if(!(q.nodeType==3&&q.nodeValue.match(/\s+/))){break}}}function h(t,s){var p="";for(var r=0;r<t.childNodes.length;r++){if(t.childNodes[r].nodeType==3){var q=t.childNodes[r].nodeValue;if(s){q=q.replace(/\n/g,"")}p+=q}else{if(t.childNodes[r].nodeName=="BR"){p+="\n"}else{p+=h(t.childNodes[r])}}}if(/MSIE [678]/.test(navigator.userAgent)){p=p.replace(/\r/g,"\n")}return p}function a(s){var r=s.className.split(/\s+/);r=r.concat(s.parentNode.className.split(/\s+/));for(var q=0;q<r.length;q++){var p=r[q].replace(/^language-/,"");if(e[p]){return p}}}function c(q){var p=[];(function(s,t){for(var r=0;r<s.childNodes.length;r++){if(s.childNodes[r].nodeType==3){t+=s.childNodes[r].nodeValue.length}else{if(s.childNodes[r].nodeName=="BR"){t+=1}else{if(s.childNodes[r].nodeType==1){p.push({event:"start",offset:t,node:s.childNodes[r]});t=arguments.callee(s.childNodes[r],t);p.push({event:"stop",offset:t,node:s.childNodes[r]})}}}}return t})(q,0);return p}function k(y,w,x){var q=0;var z="";var s=[];function u(){if(y.length&&w.length){if(y[0].offset!=w[0].offset){return(y[0].offset<w[0].offset)?y:w}else{return w[0].event=="start"?y:w}}else{return y.length?y:w}}function t(D){var A="<"+D.nodeName.toLowerCase();for(var B=0;B<D.attributes.length;B++){var C=D.attributes[B];A+=" "+C.nodeName.toLowerCase();if(C.value!==undefined&&C.value!==false&&C.value!==null){A+='="'+m(C.value)+'"'}}return A+">"}while(y.length||w.length){var v=u().splice(0,1)[0];z+=m(x.substr(q,v.offset-q));q=v.offset;if(v.event=="start"){z+=t(v.node);s.push(v.node)}else{if(v.event=="stop"){var p,r=s.length;do{r--;p=s[r];z+=("</"+p.nodeName.toLowerCase()+">")}while(p!=v.node);s.splice(r,1);while(r<s.length){z+=t(s[r]);r++}}}}return z+m(x.substr(q))}function j(){function q(x,y,v){if(x.compiled){return}var u;var s=[];if(x.k){x.lR=f(y,x.l||hljs.IR,true);for(var w in x.k){if(!x.k.hasOwnProperty(w)){continue}if(x.k[w] instanceof Object){u=x.k[w]}else{u=x.k;w="keyword"}for(var r in u){if(!u.hasOwnProperty(r)){continue}x.k[r]=[w,u[r]];s.push(r)}}}if(!v){if(x.bWK){x.b="\\b("+s.join("|")+")\\s"}x.bR=f(y,x.b?x.b:"\\B|\\b");if(!x.e&&!x.eW){x.e="\\B|\\b"}if(x.e){x.eR=f(y,x.e)}}if(x.i){x.iR=f(y,x.i)}if(x.r===undefined){x.r=1}if(!x.c){x.c=[]}x.compiled=true;for(var t=0;t<x.c.length;t++){if(x.c[t]=="self"){x.c[t]=x}q(x.c[t],y,false)}if(x.starts){q(x.starts,y,false)}}for(var p in e){if(!e.hasOwnProperty(p)){continue}q(e[p].dM,e[p],true)}}function d(B,C){if(!j.called){j();j.called=true}function q(r,M){for(var L=0;L<M.c.length;L++){if((M.c[L].bR.exec(r)||[null])[0]==r){return M.c[L]}}}function v(L,r){if(D[L].e&&D[L].eR.test(r)){return 1}if(D[L].eW){var M=v(L-1,r);return M?M+1:0}return 0}function w(r,L){return L.i&&L.iR.test(r)}function K(N,O){var M=[];for(var L=0;L<N.c.length;L++){M.push(N.c[L].b)}var r=D.length-1;do{if(D[r].e){M.push(D[r].e)}r--}while(D[r+1].eW);if(N.i){M.push(N.i)}return f(O,M.join("|"),true)}function p(M,L){var N=D[D.length-1];if(!N.t){N.t=K(N,E)}N.t.lastIndex=L;var r=N.t.exec(M);return r?[M.substr(L,r.index-L),r[0],false]:[M.substr(L),"",true]}function z(N,r){var L=E.cI?r[0].toLowerCase():r[0];var M=N.k[L];if(M&&M instanceof Array){return M}return false}function F(L,P){L=m(L);if(!P.k){return L}var r="";var O=0;P.lR.lastIndex=0;var M=P.lR.exec(L);while(M){r+=L.substr(O,M.index-O);var N=z(P,M);if(N){x+=N[1];r+='<span class="'+N[0]+'">'+M[0]+"</span>"}else{r+=M[0]}O=P.lR.lastIndex;M=P.lR.exec(L)}return r+L.substr(O,L.length-O)}function J(L,M){if(M.sL&&e[M.sL]){var r=d(M.sL,L);x+=r.keyword_count;return r.value}else{return F(L,M)}}function I(M,r){var L=M.cN?'<span class="'+M.cN+'">':"";if(M.rB){y+=L;M.buffer=""}else{if(M.eB){y+=m(r)+L;M.buffer=""}else{y+=L;M.buffer=r}}D.push(M);A+=M.r}function G(N,M,Q){var R=D[D.length-1];if(Q){y+=J(R.buffer+N,R);return false}var P=q(M,R);if(P){y+=J(R.buffer+N,R);I(P,M);return P.rB}var L=v(D.length-1,M);if(L){var O=R.cN?"</span>":"";if(R.rE){y+=J(R.buffer+N,R)+O}else{if(R.eE){y+=J(R.buffer+N,R)+O+m(M)}else{y+=J(R.buffer+N+M,R)+O}}while(L>1){O=D[D.length-2].cN?"</span>":"";y+=O;L--;D.length--}var r=D[D.length-1];D.length--;D[D.length-1].buffer="";if(r.starts){I(r.starts,"")}return R.rE}if(w(M,R)){throw"Illegal"}}var E=e[B];var D=[E.dM];var A=0;var x=0;var y="";try{var s,u=0;E.dM.buffer="";do{s=p(C,u);var t=G(s[0],s[1],s[2]);u+=s[0].length;if(!t){u+=s[1].length}}while(!s[2]);if(D.length>1){throw"Illegal"}return{r:A,keyword_count:x,value:y}}catch(H){if(H=="Illegal"){return{r:0,keyword_count:0,value:m(C)}}else{throw H}}}function g(t){var p={keyword_count:0,r:0,value:m(t)};var r=p;for(var q in e){if(!e.hasOwnProperty(q)){continue}var s=d(q,t);s.language=q;if(s.keyword_count+s.r>r.keyword_count+r.r){r=s}if(s.keyword_count+s.r>p.keyword_count+p.r){r=p;p=s}}if(r.language){p.second_best=r}return p}function i(r,q,p){if(q){r=r.replace(/^((<[^>]+>|\t)+)/gm,function(t,w,v,u){return w.replace(/\t/g,q)})}if(p){r=r.replace(/\n/g,"<br>")}return r}function n(t,w,r){var x=h(t,r);var v=a(t);var y,s;if(v){y=d(v,x)}else{return}var q=c(t);if(q.length){s=document.createElement("pre");s.innerHTML=y.value;y.value=k(q,c(s),x)}y.value=i(y.value,w,r);var u=t.className;if(!u.match("(\\s|^)(language-)?"+v+"(\\s|$)")){u=u?(u+" "+v):v}if(/MSIE [678]/.test(navigator.userAgent)&&t.tagName=="CODE"&&t.parentNode.tagName=="PRE"){s=t.parentNode;var p=document.createElement("div");p.innerHTML="<pre><code>"+y.value+"</code></pre>";t=p.firstChild.firstChild;p.firstChild.cN=s.cN;s.parentNode.replaceChild(p.firstChild,s)}else{t.innerHTML=y.value}t.className=u;t.result={language:v,kw:y.keyword_count,re:y.r};if(y.second_best){t.second_best={language:y.second_best.language,kw:y.second_best.keyword_count,re:y.second_best.r}}}function o(){if(o.called){return}o.called=true;var r=document.getElementsByTagName("pre");for(var p=0;p<r.length;p++){var q=b(r[p]);if(q){n(q,hljs.tabReplace)}}}function l(){if(window.addEventListener){window.addEventListener("DOMContentLoaded",o,false);window.addEventListener("load",o,false)}else{if(window.attachEvent){window.attachEvent("onload",o)}else{window.onload=o}}}var e={};this.LANGUAGES=e;this.highlight=d;this.highlightAuto=g;this.fixMarkup=i;this.highlightBlock=n;this.initHighlighting=o;this.initHighlightingOnLoad=l;this.IR="[a-zA-Z][a-zA-Z0-9_]*";this.UIR="[a-zA-Z_][a-zA-Z0-9_]*";this.NR="\\b\\d+(\\.\\d+)?";this.CNR="\\b(0[xX][a-fA-F0-9]+|(\\d+(\\.\\d*)?|\\.\\d+)([eE][-+]?\\d+)?)";this.BNR="\\b(0b[01]+)";this.RSR="!|!=|!==|%|%=|&|&&|&=|\\*|\\*=|\\+|\\+=|,|\\.|-|-=|/|/=|:|;|<|<<|<<=|<=|=|==|===|>|>=|>>|>>=|>>>|>>>=|\\?|\\[|\\{|\\(|\\^|\\^=|\\||\\|=|\\|\\||~";this.ER="(?![\\s\\S])";this.BE={b:"\\\\.",r:0};this.ASM={cN:"string",b:"'",e:"'",i:"\\n",c:[this.BE],r:0};this.QSM={cN:"string",b:'"',e:'"',i:"\\n",c:[this.BE],r:0};this.CLCM={cN:"comment",b:"//",e:"$"};this.CBLCLM={cN:"comment",b:"/\\*",e:"\\*/"};this.HCM={cN:"comment",b:"#",e:"$"};this.NM={cN:"number",b:this.NR,r:0};this.CNM={cN:"number",b:this.CNR,r:0};this.BNM={cN:"number",b:this.BNR,r:0};this.inherit=function(r,s){var p={};for(var q in r){p[q]=r[q]}if(s){for(var q in s){p[q]=s[q]}}return p}}();hljs.LANGUAGES.cpp=function(){var a={keyword:{"false":1,"int":1,"float":1,"while":1,"private":1,"char":1,"catch":1,"export":1,virtual:1,operator:2,sizeof:2,dynamic_cast:2,typedef:2,const_cast:2,"const":1,struct:1,"for":1,static_cast:2,union:1,namespace:1,unsigned:1,"long":1,"throw":1,"volatile":2,"static":1,"protected":1,bool:1,template:1,mutable:1,"if":1,"public":1,friend:2,"do":1,"return":1,"goto":1,auto:1,"void":2,"enum":1,"else":1,"break":1,"new":1,extern:1,using:1,"true":1,"class":1,asm:1,"case":1,typeid:1,"short":1,reinterpret_cast:2,"default":1,"double":1,register:1,explicit:1,signed:1,typename:1,"try":1,"this":1,"switch":1,"continue":1,wchar_t:1,inline:1,"delete":1,alignof:1,char16_t:1,char32_t:1,constexpr:1,decltype:1,noexcept:1,nullptr:1,static_assert:1,thread_local:1,restrict:1,_Bool:1,complex:1},built_in:{std:1,string:1,cin:1,cout:1,cerr:1,clog:1,stringstream:1,istringstream:1,ostringstream:1,auto_ptr:1,deque:1,list:1,queue:1,stack:1,vector:1,map:1,set:1,bitset:1,multiset:1,multimap:1,unordered_set:1,unordered_map:1,unordered_multiset:1,unordered_multimap:1,array:1,shared_ptr:1}};return{dM:{k:a,i:"</",c:[hljs.CLCM,hljs.CBLCLM,hljs.QSM,{cN:"string",b:"'\\\\?.",e:"'",i:"."},{cN:"number",b:"\\b(\\d+(\\.\\d*)?|\\.\\d+)(u|U|l|L|ul|UL|f|F)"},hljs.CNM,{cN:"preprocessor",b:"#",e:"$"},{cN:"stl_container",b:"\\b(deque|list|queue|stack|vector|map|set|bitset|multiset|multimap|unordered_map|unordered_set|unordered_multiset|unordered_multimap|array)\\s*<",e:">",k:a,r:10,c:["self"]}]}}}();hljs.LANGUAGES.r={dM:{c:[hljs.HCM,{cN:"number",b:"\\b0[xX][0-9a-fA-F]+[Li]?\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"number",b:"\\b\\d+(?:[eE][+\\-]?\\d*)?L\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"number",b:"\\b\\d+\\.(?!\\d)(?:i\\b)?",e:hljs.IMMEDIATE_RE,r:1},{cN:"number",b:"\\b\\d+(?:\\.\\d*)?(?:[eE][+\\-]?\\d*)?i?\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"number",b:"\\.\\d+(?:[eE][+\\-]?\\d*)?i?\\b",e:hljs.IMMEDIATE_RE,r:1},{cN:"keyword",b:"(?:tryCatch|library|setGeneric|setGroupGeneric)\\b",e:hljs.IMMEDIATE_RE,r:10},{cN:"keyword",b:"\\.\\.\\.",e:hljs.IMMEDIATE_RE,r:10},{cN:"keyword",b:"\\.\\.\\d+(?![\\w.])",e:hljs.IMMEDIATE_RE,r:10},{cN:"keyword",b:"\\b(?:function)",e:hljs.IMMEDIATE_RE,r:2},{cN:"keyword",b:"(?:if|in|break|next|repeat|else|for|return|switch|while|try|stop|warning|require|attach|detach|source|setMethod|setClass)\\b",e:hljs.IMMEDIATE_RE,r:1},{cN:"literal",b:"(?:NA|NA_integer_|NA_real_|NA_character_|NA_complex_)\\b",e:hljs.IMMEDIATE_RE,r:10},{cN:"literal",b:"(?:NULL|TRUE|FALSE|T|F|Inf|NaN)\\b",e:hljs.IMMEDIATE_RE,r:1},{cN:"identifier",b:"[a-zA-Z.][a-zA-Z0-9._]*\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"operator",b:"<\\-(?!\\s*\\d)",e:hljs.IMMEDIATE_RE,r:2},{cN:"operator",b:"\\->|<\\-",e:hljs.IMMEDIATE_RE,r:1},{cN:"operator",b:"%%|~",e:hljs.IMMEDIATE_RE},{cN:"operator",b:">=|<=|==|!=|\\|\\||&&|=|\\+|\\-|\\*|/|\\^|>|<|!|&|\\||\\$|:",e:hljs.IMMEDIATE_RE,r:0},{cN:"operator",b:"%",e:"%",i:"\\n",r:1},{cN:"identifier",b:"`",e:"`",r:0},{cN:"string",b:'"',e:'"',c:[hljs.BE],r:0},{cN:"string",b:"'",e:"'",c:[hljs.BE],r:0},{cN:"paren",b:"[[({\\])}]",e:hljs.IMMEDIATE_RE,r:0}]}};
+hljs.initHighlightingOnLoad();
+</script>
+
+
+<!-- MathJax scripts -->
+<script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/2.0-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+
+</head>
+
+<body>
+<pre><code class="r">library(psych)
+library(lavaan)
+Data &lt;- bfi
+item_names &lt;- names(Data)[1:25]
+</code></pre>
+
+<h1>Check data</h1>
+
+<pre><code class="r">sapply(Data[, item_names], function(X) sum(is.na(X)))
+</code></pre>
+
+<pre><code>## A1 A2 A3 A4 A5 C1 C2 C3 C4 C5 E1 E2 E3 E4 E5 N1 N2 N3 N4 N5 O1 O2 O3 O4 O5 
+## 16 27 26 19 16 21 24 20 26 16 23 16 25  9 21 22 21 11 36 29 22  0 28 14 20 
+</code></pre>
+
+<pre><code class="r">
+Data$item_na &lt;- apply(Data[, item_names], 1, function(X) sum(is.na(X)) &gt; 
+    0)
+
+table(Data$item_na)
+</code></pre>
+
+<pre><code>## 
+## FALSE  TRUE 
+##  2436   364 
+</code></pre>
+
+<pre><code class="r">Data &lt;- Data[!Data$item_na, ]
+</code></pre>
+
+<ul>
+<li>I decided to remove data with missing data to simplify subsequent exploration of the features of the lavaan software.</li>
+</ul>
+
+<h1>Basic CFA</h1>
+
+<pre><code class="r">m1_model &lt;- &#39; N =~ N1 + N2 + N3 + N4 + N5
+              E =~ E1 + E2 + E3 + E4 + E5
+              O =~ O1 + O2 + O3 + O4 + O5
+              A =~ A1 + A2 + A3 + A4 + A5
+              C =~ C1 + C2 + C3 + C4 + C5
+&#39;
+
+m1_fit &lt;- cfa(m1_model, data=Data[, item_names])
+summary(m1_fit, standardized=TRUE)
+</code></pre>
+
+<pre><code>## lavaan (0.4-14) converged normally after 63 iterations
+## 
+##   Number of observations                          2436
+## 
+##   Estimator                                         ML
+##   Minimum Function Chi-square                 4165.467
+##   Degrees of freedom                               265
+##   P-value                                        0.000
+## 
+## Parameter estimates:
+## 
+##   Information                                 Expected
+##   Standard Errors                             Standard
+## 
+##                    Estimate  Std.err  Z-value  P(&gt;|z|)   Std.lv  Std.all
+## Latent variables:
+##   N =~
+##     N1                1.000                               1.300    0.825
+##     N2                0.947    0.024   39.899    0.000    1.230    0.803
+##     N3                0.884    0.025   35.919    0.000    1.149    0.721
+##     N4                0.692    0.025   27.753    0.000    0.899    0.573
+##     N5                0.628    0.026   24.027    0.000    0.816    0.503
+##   E =~
+##     E1                1.000                               0.920    0.564
+##     E2                1.226    0.051   23.899    0.000    1.128    0.699
+##     E3               -0.921    0.041  -22.431    0.000   -0.847   -0.627
+##     E4               -1.121    0.047  -23.977    0.000   -1.031   -0.703
+##     E5               -0.808    0.039  -20.648    0.000   -0.743   -0.553
+##   O =~
+##     O1                1.000                               0.635    0.564
+##     O2               -1.020    0.068  -14.962    0.000   -0.648   -0.418
+##     O3                1.373    0.072   18.942    0.000    0.872    0.724
+##     O4                0.437    0.048    9.160    0.000    0.277    0.233
+##     O5               -0.960    0.060  -16.056    0.000   -0.610   -0.461
+##   A =~
+##     A1                1.000                               0.484    0.344
+##     A2               -1.579    0.108  -14.650    0.000   -0.764   -0.648
+##     A3               -2.030    0.134  -15.093    0.000   -0.983   -0.749
+##     A4               -1.564    0.115  -13.616    0.000   -0.757   -0.510
+##     A5               -1.804    0.121  -14.852    0.000   -0.873   -0.687
+##   C =~
+##     C1                1.000                               0.680    0.551
+##     C2                1.148    0.057   20.152    0.000    0.781    0.592
+##     C3                1.036    0.054   19.172    0.000    0.705    0.546
+##     C4               -1.421    0.065  -21.924    0.000   -0.967   -0.702
+##     C5               -1.489    0.072  -20.694    0.000   -1.013   -0.620
+## 
+## Covariances:
+##   N ~~
+##     E                 0.292    0.032    9.131    0.000    0.244    0.244
+##     O                -0.093    0.022   -4.138    0.000   -0.112   -0.112
+##     A                 0.141    0.018    7.713    0.000    0.223    0.223
+##     C                -0.250    0.025  -10.118    0.000   -0.283   -0.283
+##   E ~~
+##     O                -0.265    0.021  -12.347    0.000   -0.453   -0.453
+##     A                 0.304    0.025   12.293    0.000    0.683    0.683
+##     C                -0.224    0.020  -11.121    0.000   -0.357   -0.357
+##   O ~~
+##     A                -0.093    0.011   -8.446    0.000   -0.303   -0.303
+##     C                 0.130    0.014    9.190    0.000    0.301    0.301
+##   A ~~
+##     C                -0.110    0.012   -9.254    0.000   -0.334   -0.334
+## 
+## Variances:
+##     N1                0.793    0.037                      0.793    0.320
+##     N2                0.836    0.036                      0.836    0.356
+##     N3                1.222    0.043                      1.222    0.481
+##     N4                1.654    0.052                      1.654    0.672
+##     N5                1.969    0.060                      1.969    0.747
+##     E1                1.814    0.058                      1.814    0.682
+##     E2                1.332    0.049                      1.332    0.512
+##     E3                1.108    0.038                      1.108    0.607
+##     E4                1.088    0.041                      1.088    0.506
+##     E5                1.251    0.040                      1.251    0.694
+##     O1                0.865    0.032                      0.865    0.682
+##     O2                1.990    0.063                      1.990    0.826
+##     O3                0.691    0.039                      0.691    0.476
+##     O4                1.346    0.040                      1.346    0.946
+##     O5                1.380    0.045                      1.380    0.788
+##     A1                1.745    0.052                      1.745    0.882
+##     A2                0.807    0.028                      0.807    0.580
+##     A3                0.754    0.032                      0.754    0.438
+##     A4                1.632    0.051                      1.632    0.740
+##     A5                0.852    0.032                      0.852    0.528
+##     C1                1.063    0.035                      1.063    0.697
+##     C2                1.130    0.039                      1.130    0.650
+##     C3                1.170    0.039                      1.170    0.702
+##     C4                0.960    0.040                      0.960    0.507
+##     C5                1.640    0.059                      1.640    0.615
+##     N                 1.689    0.073                      1.000    1.000
+##     E                 0.846    0.062                      1.000    1.000
+##     O                 0.404    0.033                      1.000    1.000
+##     A                 0.234    0.030                      1.000    1.000
+##     C                 0.463    0.036                      1.000    1.000
+## 
+</code></pre>
+
+<ul>
+<li><strong><code>Std.lv</code></strong>: Only latent variables have been standardized</li>
+<li><strong><code>Std.all</code></strong>: Observed and latent variables have been standardized. </li>
+<li><strong>Factor loadings</strong>: Under the <code>latent variables</code> section, the <code>Std.all</code> column provides standardised factor loadings. </li>
+<li><strong>Factor correlations</strong>: Under the <code>Covariances</code>  section, the <code>Std.all</code> column provides standardised factor loadings.</li>
+<li><strong><code>Variances</code></strong>: Latent factor variances can be constrained for identifiability purposes to be 1, but in this case, one of the loadings was constrained to be one. Variances for items represent the variance not explained by the latent factor.</li>
+</ul>
+
+<pre><code class="r">variances &lt;- c(unique = subset(inspect(m1_fit, &quot;standardizedsolution&quot;), 
+    lhs == &quot;N1&quot; &amp; rhs == &quot;N1&quot;)[, &quot;est.std&quot;], common = subset(inspect(m1_fit, 
+    &quot;standardizedsolution&quot;), lhs == &quot;N&quot; &amp; rhs == &quot;N1&quot;)[, &quot;est.std&quot;]^2)
+(variances &lt;- c(variances, total = sum(variances)))
+</code></pre>
+
+<pre><code>## unique common  total 
+## 0.3195 0.6805 1.0000 
+</code></pre>
+
+<ul>
+<li>The output above illustrates the point about variances. Variance for each item is explained by either the common factor or by error variance. As there is just one latent factor loading on the item, the squared standardised coefficient is the variance explained by the common factor. The sum of the unique and common standardised variances is one, which naturally corresponds to the variance of a standardised variable.</li>
+<li>The code also demonstrates ideas about how to extract specific information from the lavaan model fit object. Specifically, the <code>inspect</code> method provides access to a wide range of specific information. See help for further details.</li>
+<li>I used the <code>subset</code> method to provide an easy one-liner for extracting elements from the data frame returned by the <code>inspect</code> method.</li>
+</ul>
+
+<pre><code class="r">variances &lt;- c(N1_N1 = subset(parameterestimates(m1_fit), lhs == 
+    &quot;N1&quot; &amp; rhs == &quot;N1&quot;)[, &quot;est&quot;], N_N = subset(parameterestimates(m1_fit), lhs == 
+    &quot;N&quot; &amp; rhs == &quot;N&quot;)[, &quot;est&quot;], N_N1 = subset(parameterestimates(m1_fit), lhs == 
+    &quot;N&quot; &amp; rhs == &quot;N1&quot;)[, &quot;est&quot;])
+
+cbind(parameters = c(variances, total = variances[&quot;N_N1&quot;] * variances[&quot;N_N&quot;] + 
+    variances[&quot;N1_N1&quot;], raw_divide_by_n_minus_1 = var(Data[, &quot;N1&quot;]), raw_divide_by_n = mean((Data[, 
+    &quot;N1&quot;] - mean(Data[, &quot;N1&quot;]))^2)))
+</code></pre>
+
+<pre><code>##                         parameters
+## N1_N1                       0.7932
+## N_N                         1.6893
+## N_N1                        1.0000
+## total.N_N1                  2.4825
+## raw_divide_by_n_minus_1     2.4835
+## raw_divide_by_n             2.4825
+</code></pre>
+
+<ul>
+<li>The output above shows the unstandardised parameters related to the item <code>N1</code>.</li>
+<li><code>N1_N1</code> corresponds to the unstandardised unique variance for the item.</li>
+<li><code>N_N</code> times <code>N_N1</code> represents the unstandardised common variance.</li>
+<li>Thus, the sum of the unique and common variance represents the total variance.</li>
+<li>When I calculated this on the raw data using the standard \( n-1 \) denominator, the value was slightly larger, but when I used \( n \) as the denominator, the estimate was very close. </li>
+</ul>
+
+<h1>Compare with a single factor model</h1>
+
+<pre><code class="r">m2_model &lt;- &#39; G =~ N1 + N2 + N3 + N4 + N5
+              + E1 + E2 + E3 + E4 + E5
+              + O1 + O2 + O3 + O4 + O5
+              + A1 + A2 + A3 + A4 + A5
+              + C1 + C2 + C3 + C4 + C5
+&#39;
+
+m2_fit &lt;- cfa(m2_model, data=Data[, item_names])
+summary(m2_fit, standardized=TRUE)
+</code></pre>
+
+<pre><code>## lavaan (0.4-14) converged normally after 55 iterations
+## 
+##   Number of observations                          2436
+## 
+##   Estimator                                         ML
+##   Minimum Function Chi-square                10673.239
+##   Degrees of freedom                               275
+##   P-value                                        0.000
+## 
+## Parameter estimates:
+## 
+##   Information                                 Expected
+##   Standard Errors                             Standard
+## 
+##                    Estimate  Std.err  Z-value  P(&gt;|z|)   Std.lv  Std.all
+## Latent variables:
+##   G =~
+##     N1                1.000                               0.547    0.347
+##     N2                0.959    0.081   11.809    0.000    0.524    0.342
+##     N3                0.960    0.083   11.547    0.000    0.525    0.329
+##     N4                1.375    0.099   13.919    0.000    0.752    0.479
+##     N5                0.884    0.081   10.860    0.000    0.484    0.298
+##     E1                1.332    0.099   13.509    0.000    0.728    0.447
+##     E2                1.868    0.122   15.297    0.000    1.022    0.633
+##     E3               -1.382    0.094  -14.730    0.000   -0.756   -0.559
+##     E4               -1.702    0.111  -15.307    0.000   -0.931   -0.635
+##     E5               -1.292    0.090  -14.425    0.000   -0.707   -0.526
+##     O1               -0.656    0.058  -11.321    0.000   -0.359   -0.318
+##     O2                0.444    0.067    6.641    0.000    0.243    0.156
+##     O3               -0.877    0.068  -12.801    0.000   -0.479   -0.398
+##     O4                0.142    0.048    2.930    0.003    0.078    0.065
+##     O5                0.416    0.058    7.196    0.000    0.228    0.172
+##     A1                0.568    0.065    8.797    0.000    0.311    0.221
+##     A2               -1.032    0.074  -13.913    0.000   -0.565   -0.479
+##     A3               -1.322    0.090  -14.663    0.000   -0.723   -0.552
+##     A4               -1.172    0.088  -13.307    0.000   -0.641   -0.432
+##     A5               -1.413    0.093  -15.123    0.000   -0.773   -0.608
+##     C1               -0.705    0.063  -11.188    0.000   -0.386   -0.312
+##     C2               -0.725    0.066  -10.923    0.000   -0.396   -0.301
+##     C3               -0.682    0.064  -10.645    0.000   -0.373   -0.289
+##     C4                1.009    0.079   12.852    0.000    0.552    0.401
+##     C5                1.332    0.099   13.505    0.000    0.728    0.446
+## 
+## Variances:
+##     N1                2.183    0.064                      2.183    0.880
+##     N2                2.075    0.061                      2.075    0.883
+##     N3                2.267    0.066                      2.267    0.892
+##     N4                1.897    0.057                      1.897    0.770
+##     N5                2.401    0.070                      2.401    0.911
+##     E1                2.130    0.064                      2.130    0.801
+##     E2                1.560    0.050                      1.560    0.599
+##     E3                1.255    0.039                      1.255    0.687
+##     E4                1.284    0.042                      1.284    0.597
+##     E5                1.304    0.040                      1.304    0.723
+##     O1                1.140    0.033                      1.140    0.899
+##     O2                2.351    0.068                      2.351    0.976
+##     O3                1.222    0.036                      1.222    0.842
+##     O4                1.417    0.041                      1.417    0.996
+##     O5                1.701    0.049                      1.701    0.970
+##     A1                1.883    0.054                      1.883    0.951
+##     A2                1.072    0.032                      1.072    0.771
+##     A3                1.196    0.037                      1.196    0.696
+##     A4                1.794    0.053                      1.794    0.814
+##     A5                1.017    0.032                      1.017    0.630
+##     C1                1.376    0.040                      1.376    0.902
+##     C2                1.582    0.046                      1.582    0.910
+##     C3                1.528    0.044                      1.528    0.917
+##     C4                1.590    0.047                      1.590    0.839
+##     C5                2.134    0.064                      2.134    0.801
+##     G                 0.299    0.037                      1.000    1.000
+## 
+</code></pre>
+
+<pre><code class="r">round(cbind(m1 = inspect(m1_fit, &quot;fit.measures&quot;), m2 = inspect(m2_fit, 
+    &quot;fit.measures&quot;)), 3)
+</code></pre>
+
+<pre><code>##                           m1         m2
+## chisq               4165.467  1.067e+04
+## df                   265.000  2.750e+02
+## pvalue                 0.000  0.000e+00
+## baseline.chisq     18222.116  1.822e+04
+## baseline.df          300.000  3.000e+02
+## baseline.pvalue        0.000  0.000e+00
+## cfi                    0.782  4.200e-01
+## tli                    0.754  3.670e-01
+## logl              -99840.238 -1.031e+05
+## unrestricted.logl -97757.504 -9.776e+04
+## npar                  60.000  5.000e+01
+## aic               199800.476  2.063e+05
+## bic               200148.363  2.066e+05
+## ntotal              2436.000  2.436e+03
+## bic2              199957.729  2.064e+05
+## rmsea                  0.078  1.250e-01
+## rmsea.ci.lower         0.076  1.230e-01
+## rmsea.ci.upper         0.080  1.270e-01
+## rmsea.pvalue           0.000  0.000e+00
+## srmr                   0.075  1.160e-01
+</code></pre>
+
+<pre><code class="r">anova(m1_fit, m2_fit)
+</code></pre>
+
+<pre><code>## Chi Square Difference Test
+## 
+##         Df    AIC    BIC Chisq Chisq diff Df diff Pr(&gt;Chisq)    
+## m1_fit 265 199800 200148  4165                                  
+## m2_fit 275 206288 206578 10673       6508      10     &lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1 
+</code></pre>
+
+<ul>
+<li>The output compares the model fit statistics for the two models.</li>
+<li>It also performs a chi-square difference test which shows that a one-factor model has significantly worse fit than the two-factor model.</li>
+</ul>
+
+<h1>Modification indices</h1>
+
+<pre><code class="r">m1_mod &lt;- modificationindices(m1_fit)
+m1_mod_summary &lt;- subset(m1_mod, mi &gt; 100)
+m1_mod_summary[order(m1_mod_summary$mi, decreasing = TRUE), ]
+</code></pre>
+
+<pre><code>##    lhs op rhs    mi    epc sepc.lv sepc.all sepc.nox
+## 1   N1 ~~  N2 418.8  0.841   0.841    0.348    0.348
+## 2    E =~  N4 200.8  0.487   0.448    0.285    0.285
+## 3    O =~  E3 153.7  0.672   0.427    0.316    0.316
+## 4   N3 ~~  N4 134.1  0.403   0.403    0.161    0.161
+## 5    O =~  E4 122.6 -0.636  -0.404   -0.276   -0.276
+## 6    C =~  E5 121.5  0.504   0.343    0.255    0.255
+## 7    E =~  O3 114.2 -0.429  -0.395   -0.328   -0.328
+## 8    E =~  O4 113.9  0.372   0.343    0.287    0.287
+## 9    N =~  C5 108.8  0.271   0.352    0.216    0.216
+## 10   E =~  A5 108.6 -0.488  -0.449   -0.354   -0.354
+## 11   N =~  C2 107.0  0.219   0.285    0.216    0.216
+## 12  C1 ~~  C2 107.0  0.288   0.288    0.177    0.177
+## 13  E2 ~~  O4 104.7  0.310   0.310    0.161    0.161
+## 14  A1 ~~  A2 101.4 -0.276  -0.276   -0.166   -0.166
+</code></pre>
+
+<ul>
+<li><code>modificationindices</code> suggests several ad hoc modifications that could be made to improve the fit of the model.</li>
+<li>The largest index suggests that items <code>N1</code> and <code>N2</code> share common variance. If we look at the help file on the bfi dataset <code>?bfi</code>, we see tha the text for <code>N1</code> (&ldquo;Get angry easily&rdquo;) and <code>N2</code> (&ldquo;Get irritated easily&rdquo;) are very similar. </li>
+</ul>
+
+<pre><code class="r">(N_cors &lt;- round(cor(Data[, paste0(&quot;N&quot;, 1:5)]), 2))
+</code></pre>
+
+<pre><code>##      N1   N2   N3   N4   N5
+## N1 1.00 0.72 0.57 0.41 0.38
+## N2 0.72 1.00 0.55 0.39 0.35
+## N3 0.57 0.55 1.00 0.52 0.43
+## N4 0.41 0.39 0.52 1.00 0.40
+## N5 0.38 0.35 0.43 0.40 1.00
+</code></pre>
+
+<pre><code class="r">N1_N2_corr &lt;- N_cors[&quot;N1&quot;, &quot;N2&quot;]
+other_N_corrs &lt;- round(mean(abs(N_cors[lower.tri(N_cors)][-1])), 
+    2)
+</code></pre>
+
+<ul>
+<li>The correlation matrix also shows that the correlation N1 and N2 (\( r = 0.72 \)) is much larger than it is for the other variables (\( \text{mean}(|r|) = 0.44 \)).</li>
+</ul>
+
+<h1>Various matrices</h1>
+
+<h2>Observed, fitted, and residual covariance matrices</h2>
+
+<p>The following analysis extracts observed, fitted, and residual covariances and checks that they are consistent with expectations. I only perform this for five items rather than the full 25 item set in order to make the point about demonstrating their meaning clearer.</p>
+
+<pre><code class="r">N_names &lt;- paste0(&quot;N&quot;, 1:5)
+N_matrices &lt;- list(observed = inspect(m1_fit, &quot;sampstat&quot;)$cov[N_names, 
+    N_names], fitted = fitted(m1_fit)$cov[N_names, N_names], residual = resid(m1_fit)$cov[N_names, 
+    N_names])
+
+N_matrices$check &lt;- N_matrices$observed - (N_matrices$fitted + N_matrices$residual)
+lapply(N_matrices, function(X) round(X, 3))
+</code></pre>
+
+<pre><code>## $observed
+##       N1    N2    N3    N4    N5
+## N1 2.482 1.735 1.425 1.013 0.973
+## N2 1.735 2.350 1.344 0.950 0.873
+## N3 1.425 1.344 2.542 1.309 1.114
+## N4 1.013 0.950 1.309 2.463 1.026
+## N5 0.973 0.873 1.114 1.026 2.635
+## 
+## $fitted
+##       N1    N2    N3    N4    N5
+## N1 2.482 1.599 1.493 1.169 1.061
+## N2 1.599 2.350 1.414 1.106 1.004
+## N3 1.493 1.414 2.542 1.033 0.937
+## N4 1.169 1.106 1.033 2.463 0.734
+## N5 1.061 1.004 0.937 0.734 2.635
+## 
+## $residual
+##        N1     N2     N3     N4     N5
+## N1  0.000  0.135 -0.068 -0.155 -0.087
+## N2  0.135  0.000 -0.069 -0.157 -0.131
+## N3 -0.068 -0.069  0.000  0.276  0.177
+## N4 -0.155 -0.157  0.276  0.000  0.293
+## N5 -0.087 -0.131  0.177  0.293  0.000
+## 
+## $check
+##    N1 N2 N3 N4 N5
+## N1  0  0  0  0  0
+## N2  0  0  0  0  0
+## N3  0  0  0  0  0
+## N4  0  0  0  0  0
+## N5  0  0  0  0  0
+## 
+</code></pre>
+
+<ul>
+<li>The overved covariance matrix was extracted using the <code>cov</code> function on the sample data.</li>
+<li>The fitted covariance matrix can be extracted using the <code>fitted</code> method on the model fit object and then extracting the cov</li>
+<li>Many symmetric matrices in lavaan are of class <code>lavaan.matrix.symmetric</code>. This hides the upper triangle of the matrix and formats the matrix to <code>nd</code> decimal places.
+Run <code>getAnywhere(print.lavaan.matrix.symmetric)</code> to see more details.</li>
+<li>The <code>sampstat</code> option in the <code>inspect</code> method can be used to extract the sample covariance matrix. This is similar, but not exactly the same as running <code>cov</code> on the sample data.</li>
+<li>The <code>resid</code> method can be used to extract the residual covariance matrix</li>
+<li>I then create a <code>check</code> that <code>observed = fitted - residual</code>, which it does.</li>
+</ul>
+
+<h2>Observed, fitted, and residual correlation matrices</h2>
+
+<p>I often find it more meaningful to examine observed, fitted, and residual correlation matrices.  Standardisation often makes it easier to understand the real magnitude of any residual.</p>
+
+<pre><code class="r">N_names &lt;- paste0(&quot;N&quot;, 1:5)
+N_cov &lt;- list(observed = inspect(m1_fit, &quot;sampstat&quot;)$cov[N_names, 
+    N_names], fitted = fitted(m1_fit)$cov[N_names, N_names])
+
+N_cor &lt;- list(observed = cov2cor(N_cov$observed), fitted = cov2cor(N_cov$fitted))
+
+N_cor$residual &lt;- N_cor$observed - N_cor$fitted
+
+lapply(N_cor, function(X) round(X, 2))
+</code></pre>
+
+<pre><code>## $observed
+##      N1   N2   N3   N4   N5
+## N1 1.00 0.72 0.57 0.41 0.38
+## N2 0.72 1.00 0.55 0.39 0.35
+## N3 0.57 0.55 1.00 0.52 0.43
+## N4 0.41 0.39 0.52 1.00 0.40
+## N5 0.38 0.35 0.43 0.40 1.00
+## 
+## $fitted
+##      N1   N2   N3   N4   N5
+## N1 1.00 0.66 0.59 0.47 0.41
+## N2 0.66 1.00 0.58 0.46 0.40
+## N3 0.59 0.58 1.00 0.41 0.36
+## N4 0.47 0.46 0.41 1.00 0.29
+## N5 0.41 0.40 0.36 0.29 1.00
+## 
+## $residual
+##       N1    N2    N3    N4    N5
+## N1  0.00  0.06 -0.03 -0.06 -0.03
+## N2  0.06  0.00 -0.03 -0.07 -0.05
+## N3 -0.03 -0.03  0.00  0.11  0.07
+## N4 -0.06 -0.07  0.11  0.00  0.11
+## N5 -0.03 -0.05  0.07  0.11  0.00
+## 
+</code></pre>
+
+<ul>
+<li><code>cov2cor</code> is a <code>base</code> R function that scales a covariance matrix into a correlation matrix.</li>
+<li> Fitted and observed correlation matrices can be obtained by running <code>cov2cor</code> on the corresponding covariance matrices.</li>
+<li>The residual correlation matrix can be obtained by subtracting the fitted correlation matrix from the observed correlation matrix.</li>
+<li>In this case we can see that the certain pairs of items correlate more or less than other pairs. In particular <code>N1-N2</code>, <code>N3-N4</code>, <code>N4-N5</code> have positive correlation residuals. An examination of the items below may suggest some added degree of similarity between these pairs of items. For example, N1 and N2 both concern anger and irritation, whereas N3 and N4 both concern mood and affect. </li>
+</ul>
+
+<blockquote>
+<p>N1: Get angry easily. (q_952)<br/>
+N2: Get irritated easily. (q_974)<br/>
+N3: Have frequent mood swings. (q_1099<br/>
+N4: Often feel blue. (q_1479)<br/>
+N5: Panic easily. (q_1505)</p>
+</blockquote>
+
+<h1>Uncorrelated factors</h1>
+
+<h2>All Uncorrelated factors</h2>
+
+<p>The following examines a mdoel with uncorrelated factors.</p>
+
+<pre><code class="r">m3_model &lt;- &#39; N =~ N1 + N2 + N3 + N4 + N5
+              E =~ E1 + E2 + E3 + E4 + E5
+              O =~ O1 + O2 + O3 + O4 + O5
+              A =~ A1 + A2 + A3 + A4 + A5
+              C =~ C1 + C2 + C3 + C4 + C5
+&#39;
+
+m3_fit &lt;- cfa(m3_model, data=Data[, item_names], orthogonal=TRUE)
+
+round(cbind(m1=inspect(m1_fit, &#39;fit.measures&#39;),
+      m3=inspect(m3_fit, &#39;fit.measures&#39;)), 3)
+</code></pre>
+
+<pre><code>##                           m1         m3
+## chisq               4165.467  5.640e+03
+## df                   265.000  2.750e+02
+## pvalue                 0.000  0.000e+00
+## baseline.chisq     18222.116  1.822e+04
+## baseline.df          300.000  3.000e+02
+## baseline.pvalue        0.000  0.000e+00
+## cfi                    0.782  7.010e-01
+## tli                    0.754  6.730e-01
+## logl              -99840.238 -1.006e+05
+## unrestricted.logl -97757.504 -9.776e+04
+## npar                  60.000  5.000e+01
+## aic               199800.476  2.013e+05
+## bic               200148.363  2.015e+05
+## ntotal              2436.000  2.436e+03
+## bic2              199957.729  2.014e+05
+## rmsea                  0.078  8.900e-02
+## rmsea.ci.lower         0.076  8.700e-02
+## rmsea.ci.upper         0.080  9.200e-02
+## rmsea.pvalue           0.000  0.000e+00
+## srmr                   0.075  1.380e-01
+</code></pre>
+
+<pre><code class="r">anova(m1_fit, m3_fit)
+</code></pre>
+
+<pre><code>## Chi Square Difference Test
+## 
+##         Df    AIC    BIC Chisq Chisq diff Df diff Pr(&gt;Chisq)    
+## m1_fit 265 199800 200148  4165                                  
+## m3_fit 275 201255 201545  5640       1474      10     &lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1 
+</code></pre>
+
+<ul>
+<li>To convert a <code>cfa</code> model from one that permits fators to be correlated to one that constrains factors to be uncorrelated, just specify <code>orthogonal=TRUE</code>.</li>
+<li>In this case constraining the factor covariances to all be zero led to a significant reduction in fit. This poorer fit can also be seen in measures like RMSEA (m1=</li>
+</ul>
+
+<pre><code>
+Error in eval(expr, envir, enclos) : could not find function &quot;inspect&quot;
+
+</code></pre>
+
+<p>; <br/>
+m2 = </p>
+
+<pre><code>
+Error in eval(expr, envir, enclos) : could not find function &quot;inspect&quot;
+
+</code></pre>
+
+<p>).</p>
+
+<h2>Correlations and covariances between factors</h2>
+
+<p>It useful to be able to extract correlations and covaraiances between factors.</p>
+
+<pre><code class="r">inspect(m1_fit, &quot;coefficients&quot;)$psi
+</code></pre>
+
+<pre><code>##   N      E      O      A      C     
+## N  1.689                            
+## E  0.292  0.846                     
+## O -0.093 -0.265  0.404              
+## A  0.141  0.304 -0.093  0.234       
+## C -0.250 -0.224  0.130 -0.110  0.463
+</code></pre>
+
+<pre><code class="r">cov2cor(inspect(m1_fit, &quot;coefficients&quot;)$psi)
+</code></pre>
+
+<pre><code>##   N      E      O      A      C     
+## N  1.000                            
+## E  0.244  1.000                     
+## O -0.112 -0.453  1.000              
+## A  0.223  0.683 -0.303  1.000       
+## C -0.283 -0.357  0.301 -0.334  1.000
+</code></pre>
+
+<pre><code class="r">A_E_r &lt;- cov2cor(inspect(m1_fit, &quot;coefficients&quot;)$psi)[&quot;A&quot;, &quot;E&quot;]
+</code></pre>
+
+<ul>
+<li>This code first extracts the factor variances and covariances.</li>
+<li>I assume that naming the element <code>psi</code> (i.e., \( \psi \)) is a reference to LISREL Matrix notation (see this discussion from <a href="http://www.upa.pdx.edu/IOA/newsom/semclass/ho_lisrel%20notation.pdf">USP 655 SEM</a>).</li>
+<li>Once again <code>cov2cor</code> is used to convert the covariance matrix to a correlation matrix.</li>
+<li>An inspection of the values shows that there are some substantive correlations that helps to explain why constraining them to zero in an orthogonal model would have substantially damaged fit. For example, the correlation between extraversion (<code>E</code>) and agreeableness (<code>A</code>) was quite high (\( r = 0.68 \)).</li>
+</ul>
+
+<pre><code class="r"># c(&#39;O&#39;, &#39;C&#39;, &#39;E&#39;, &#39;A&#39;, &#39;N&#39;) # set of factor names lhs != rhs # excludes
+# factor variances
+subset(inspect(m1_fit, &quot;standardized&quot;), rhs %in% c(&quot;O&quot;, &quot;C&quot;, &quot;E&quot;, 
+    &quot;A&quot;, &quot;N&quot;) &amp; lhs != rhs)
+</code></pre>
+
+<pre><code>##    lhs op rhs est.std se  z pvalue
+## 1    N ~~   E   0.244 NA NA     NA
+## 2    N ~~   O  -0.112 NA NA     NA
+## 3    N ~~   A   0.223 NA NA     NA
+## 4    N ~~   C  -0.283 NA NA     NA
+## 5    E ~~   O  -0.453 NA NA     NA
+## 6    E ~~   A   0.683 NA NA     NA
+## 7    E ~~   C  -0.357 NA NA     NA
+## 8    O ~~   A  -0.303 NA NA     NA
+## 9    O ~~   C   0.301 NA NA     NA
+## 10   A ~~   C  -0.334 NA NA     NA
+</code></pre>
+
+<ul>
+<li>The same values can be extracted from the <code>standardized</code> coefficients table using the <code>inspect</code> method.</li>
+</ul>
+
+<p>We can also confirm that for the orthogonal model (<code>m3</code>) the correlations are zero.</p>
+
+<pre><code class="r">cov2cor(inspect(m3_fit, &quot;coefficients&quot;)$psi)
+</code></pre>
+
+<pre><code>##   N E O A C
+## N 1        
+## E 0 1      
+## O 0 0 1    
+## A 0 0 0 1  
+## C 0 0 0 0 1
+</code></pre>
+
+<h1>Constrain factor correlations to be equal</h1>
+
+<h2>Change constraints so that factor variances are one</h2>
+
+<pre><code class="r">m4_model &lt;- &#39; N =~ N1 + N2 + N3 + N4 + N5
+              E =~ E1 + E2 + E3 + E4 + E5
+              O =~ O1 + O2 + O3 + O4 + O5
+              A =~ A1 + A2 + A3 + A4 + A5
+              C =~ C1 + C2 + C3 + C4 + C5
+&#39;
+
+m4_fit &lt;- cfa(m4_model, data=Data[, item_names], std.lv=TRUE)
+
+inspect(m4_fit, &#39;coefficients&#39;)$psi
+</code></pre>
+
+<pre><code>##   N      E      O      A      C     
+## N  1.000                            
+## E -0.244  1.000                     
+## O -0.112  0.453  1.000              
+## A -0.223  0.683  0.303  1.000       
+## C -0.283  0.357  0.301  0.334  1.000
+</code></pre>
+
+<pre><code class="r">inspect(m4_fit, &#39;coefficients&#39;)$psi
+</code></pre>
+
+<pre><code>##   N      E      O      A      C     
+## N  1.000                            
+## E -0.244  1.000                     
+## O -0.112  0.453  1.000              
+## A -0.223  0.683  0.303  1.000       
+## C -0.283  0.357  0.301  0.334  1.000
+</code></pre>
+
+<ul>
+<li><code>std.lv</code> is an argument that when <code>TRUE</code> standardises latent variables by fixing their variance to 1.0. The default is <code>FALSE</code> which instead constrains the first factor loading to 1.0.</li>
+<li>This makes the covariance and the correlation matrix of the factors the same.</li>
+</ul>
+
+<p>We can see the differences in the loadings by comparing the loadings for the neuroticism factor: </p>
+
+<pre><code class="r">head(parameterestimates(m4_fit), 5)
+</code></pre>
+
+<pre><code>##   lhs op rhs   est    se     z pvalue ci.lower ci.upper
+## 1   N =~  N1 1.300 0.028 46.07      0    1.244    1.355
+## 2   N =~  N2 1.230 0.028 44.38      0    1.176    1.285
+## 3   N =~  N3 1.149 0.030 38.41      0    1.090    1.207
+## 4   N =~  N4 0.899 0.031 28.75      0    0.838    0.960
+## 5   N =~  N5 0.816 0.033 24.65      0    0.751    0.881
+</code></pre>
+
+<pre><code class="r">head(parameterestimates(m1_fit), 5)
+</code></pre>
+
+<pre><code>##   lhs op rhs   est    se     z pvalue ci.lower ci.upper
+## 1   N =~  N1 1.000 0.000    NA     NA    1.000    1.000
+## 2   N =~  N2 0.947 0.024 39.90      0    0.900    0.993
+## 3   N =~  N3 0.884 0.025 35.92      0    0.836    0.932
+## 4   N =~  N4 0.692 0.025 27.75      0    0.643    0.741
+## 5   N =~  N5 0.628 0.026 24.03      0    0.577    0.679
+</code></pre>
+
+<pre><code class="r">
+# shows how ratio of loadings has not changed
+head(parameterestimates(m4_fit), 5)$est/head(parameterestimates(m4_fit), 
+    5)$est[1]
+</code></pre>
+
+<pre><code>## [1] 1.0000 0.9467 0.8839 0.6918 0.6278
+</code></pre>
+
+<h2>Add equality constraints</h2>
+
+<pre><code class="r">m5_model &lt;- &#39; N =~ N1 + N2 + N3 + N4 + N5
+              E =~ E1 + E2 + E3 + E4 + E5
+              O =~ O1 + O2 + O3 + O4 + O5
+              A =~ A1 + A2 + A3 + A4 + A5
+              C =~ C1 + C2 + C3 + C4 + C5
+    N ~~ R*E + R*O + R*A + R*C
+    E ~~ R*O + R*A + R*C
+    O ~~ R*A + R*C
+    A ~~ R*C
+&#39;
+
+Data_reversed &lt;- Data
+Data_reversed[, paste0(&#39;N&#39;, 1:5)] &lt;- 7 - Data[, paste0(&#39;N&#39;, 1:5)]
+
+m5_fit &lt;- cfa(m5_model, data=Data_reversed[, item_names], std.lv=TRUE)
+</code></pre>
+
+<ul>
+<li>Equality constraints were added by labelling all the covariance parameters with a common label (i.e., <code>R</code>). </li>
+<li><code>~~</code> stands for covariance.</li>
+<li><code>R*E</code> labels the parameter with the <code>E</code> variable with the label </li>
+<li>I reversed the neuroticism items and hence the factor to ensure that all the inter-item correlations were positive.</li>
+</ul>
+
+<p>The following output shows that the correlation/covariance is the same for all factor inter-correlations.</p>
+
+<pre><code class="r">inspect(m5_fit, &quot;coefficients&quot;)$psi
+</code></pre>
+
+<pre><code>##   N     E     O     A     C    
+## N 1.000                        
+## E 0.323 1.000                  
+## O 0.323 0.323 1.000            
+## A 0.323 0.323 0.323 1.000      
+## C 0.323 0.323 0.323 0.323 1.000
+</code></pre>
+
+<p>The following analysis compare the fit of the unconstrained with the equal-covariance model.</p>
+
+<pre><code class="r">round(cbind(m1 = inspect(m1_fit, &quot;fit.measures&quot;), m5 = inspect(m5_fit, 
+    &quot;fit.measures&quot;)), 3)
+</code></pre>
+
+<pre><code>##                           m1         m5
+## chisq               4165.467  4.576e+03
+## df                   265.000  2.740e+02
+## pvalue                 0.000  0.000e+00
+## baseline.chisq     18222.116  1.822e+04
+## baseline.df          300.000  3.000e+02
+## baseline.pvalue        0.000  0.000e+00
+## cfi                    0.782  7.600e-01
+## tli                    0.754  7.370e-01
+## logl              -99840.238 -1.000e+05
+## unrestricted.logl -97757.504 -9.776e+04
+## npar                  60.000  5.100e+01
+## aic               199800.476  2.002e+05
+## bic               200148.363  2.005e+05
+## ntotal              2436.000  2.436e+03
+## bic2              199957.729  2.003e+05
+## rmsea                  0.078  8.000e-02
+## rmsea.ci.lower         0.076  7.800e-02
+## rmsea.ci.upper         0.080  8.200e-02
+## rmsea.pvalue           0.000  0.000e+00
+## srmr                   0.075  8.900e-02
+</code></pre>
+
+<pre><code class="r">anova(m1_fit, m5_fit)
+</code></pre>
+
+<pre><code>## Chi Square Difference Test
+## 
+##         Df   AIC   BIC Chisq Chisq diff Df diff Pr(&gt;Chisq)    
+## m1_fit 265 2e+05 2e+05  4165                                  
+## m5_fit 274 2e+05 2e+05  4576        411       9     &lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1 
+</code></pre>
+
+<ul>
+<li>The unconstrained model provides a better fit both in terms of the chi-square difference test and when comparing various parisomony adjusted fit indices such as RMSEA. </li>
+<li>The difference is relatively small.</li>
+</ul>
+
+<p>The following summarises the correlations between variables (correlations with Neuroticism reversed).</p>
+
+<pre><code class="r">rs &lt;- abs(inspect(m4_fit, &quot;coefficients&quot;)$psi)
+summary(rs[lower.tri(rs)])
+</code></pre>
+
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##   0.112   0.254   0.302   0.329   0.352   0.683 
+</code></pre>
+
+<pre><code class="r">hist(rs[lower.tri(rs)])
+</code></pre>
+
+<p><img src="data:image/png;base64,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KIQXCuGFQnihEF4ohBcK4YVCeKEQXiiEFwrhhUJ4oRBeKIQXCuGFQnihEF4ohBcK4d0tu13kMxDe3Vao5hpD8EhhqeGNWeE3nFPqzDaHF+o0/A6H1z/Z4f07ffk5vf8OnpofcSAlyzBlWvjhjVnOOA3ndH/A4fWXObx/py8/p/ffQdGMzo9HPtRzP1Rz753+/rn3XYbw4bjDITzTnjscwjPtucMhPNOeOxzCM+25wyE80547HMIz7bnDITzTnjscwjPtucMhPNOeOxzCM+25wyE80547HMIz7bnDITzTnjscwjPtucMhPNOeOxzCM+25wyE80547HMIz7bnDITzTnjscwjPtucMhPNOeOxzCM+25wyE80547HMIz7bnDITzTnjscwjPtucMhPNOeOxzCM+25wyE80547HMIz7bnDITzTnjscwjPtucMhPNOeOxzCM+25wyE80547HMIz7bnDITzTnjscwjPtucMhPNOeOxzCM+25wyE80547HMIz7bnDITzTnjscwjPtucMhPNOeOxzCM+25wyE80547HMIz7bnDITzTnjscwjPtucMhPNOeOxzCM+25wyE80547HMIz7bnDITzTnjscwjPtucMhPNOeOxzCM+25wyE80547HMIz7bnDITzTnjscwjPtucMhPNOeOxzCM+25wyE80547HMIz7bnDITzTnjscwjPtucMhPNOeOxzCM+25wyE80547HMIz7bnDITzTnjscwjPtucMhPNOeOxzCM+25wyE80547HMIz7bnDITzTnjvccQjvOTGuk6MIH447XLTDn3Db9hbV+vGdSZHPQPhw3OGiHf7pN0akJablv7wg8hkIH447XLTDN5xi/JRSGzxSWGp4/e7wG1aXOnMwxvdOf/+1DvfRDr+l2Php3ObgkZQsw6knht+wX5YzQ4Tvv+dw3zvK4XOrP1q6YEnlru9H+bzwbZdQVHzL5KIE7ssAAAAAAAAAAAAAgK7bVu7MHuwdeZsrPPffJ2PPhPvCsWfCfeHYM+G+cOyZcF849ky4Lxx7Jiuxj+m9bd2xj+k9AAAAAAAAALhZ7ub6hT3afr0i28l+ZEXz+iH29567dn+57gwH90+U7bc8D9m/qZSy/gk0c5+xonHT6fb3M5Qu3/IJbEqontR31W3GL4ueUtbDm/uMpnG97vnQ/r5ox+A+C1bY3xPFb2i1Og/d7zzP5zvZ/t7z3k3pD1r+lLu57+Xz+c7/sMc3DaKl6COiwu3GL2fMb7Ye3tyP30jU7ZjVf+dt7jOHeXrNftr+/RNNX2o9vLnvdije8jp0P+wjDyUNtb/XLSqwcQn2FC8lSmvxBJ6osR7e3KecRFTwqcfB/Y9XX/js3z8N3JplPby5H1T/ctVf+9rfT3zpye3L+tvfa/KWWp3bd8sCokTV9u0xbIQP3Xsurxnj6P5PeMDyQ6W5j1tzqdd6eHM/vOKH2c+tt7+/+dgNp/1pg/299vJ7+7tW5/ZNXqL9iTvS9g3RbIQP2ae9UJ7rYH/aAP3Pfodvz9Xl/eRFZCN82O+fko96be9vLCPq0Wp/TzSizOLYiZGVRPkftz1hI7y5T3pvto03kub+d/OI+h+0egpzv7ixtk7V5tneD9PevnY7nGp7P1rLlnTE/p5o3s8tjp1I2DU2+e93Eo3V37rZCG/ux1do75b6rIYz97mfn+N9Zon9+0/r12/o0X5WHzHMfX59QdrcVfbvP2nvT9IetPw6G/Ly91QPsLp2Irdi/0LtpeUfTbbCm/v7jY9DrT7Uhdz/zz5sWGJ5Hnb9Nh7qzb3nF9sPvJDh4P7Pea9pRT8H+zN3WX3PGAAAAAAAAAAAAAAAAAAAAAAAAAAgVP7RhjMrv+lGrcb/XDG3XPvh95eYh8f/kmj5oVnH69LgeMpfT10NnzaKyFsRZx7uVtmTqGTWcbs2iLqcspIPEh6vr729PfyV2w4s70PvjqKbD3enNRPo/C3NK/saN9Nu/braca72K/01fsZvQ7Z0dzHCx5achoVDxm31nXVoYCB8ZsNF31m4mO6fQ8ubzkv0902rHdN7/lrjZvrNWxP0X+nh150ZsqULXkb42JLTkkTjPjnH4+0WCD/9aaI+h+MvecuzY/6M3P/QdcuIujfH57T9szstvPYrLXx8S0rIlgbsR/jYklNFFF9csaekRyD8fTO1g/70no2nll/2wtRHqKSxurq6PkO/mU4LX2W8c3fSvtCt9uegO8LHlJytRKdm0oB3ft32Gr9Qe40/kkBvPTzfu2fJZVS8XIub69FvptPCbzXDB7cUd6gHwscUPd5Nm07OrCgOhB94oKj3M0uJZvqvpf809KL0faO8D6w3bqb/08PW1LbwxkN9cEv96/BQH1v0eMkv+vc/ntj2Xv1V2xpf1L/7hhpET+rfiODiyuY1WYHw/tG0pPHcQHjjnbvglgpfQfhYlW/t+1VoH86FuGsSwscqi+HxCRy3yD/aYOn2t4V+yvYGfMoWAAAAAAAAAAAAAAAAAAAAvs7/API1cD0Q5sm5AAAAAElFTkSuQmCC" alt="plot of chunk unnamed-chunk-19"/> </p>
+
+<pre><code class="r">
+round(rs, 2)
+</code></pre>
+
+<pre><code>##   N    E    O    A    C   
+## N 1.00                    
+## E 0.24 1.00               
+## O 0.11 0.45 1.00          
+## A 0.22 0.68 0.30 1.00     
+## C 0.28 0.36 0.30 0.33 1.00
+</code></pre>
+
+<ul>
+<li>Given the very large sample size, even small variations in sample correlations likely reflect true variation.</li>
+<li>However, in particular, the correlation between E and A is much larger than the average correlation, and the correlation between O and N is much smaller than the average correlation.</li>
+</ul>
+
+<h2>Add equality constraints with some post hoc modifications</h2>
+
+<pre><code class="r">m6_model &lt;- &#39; N =~ N1 + N2 + N3 + N4 + N5
+              E =~ E1 + E2 + E3 + E4 + E5
+              O =~ O1 + O2 + O3 + O4 + O5
+              A =~ A1 + A2 + A3 + A4 + A5
+              C =~ C1 + C2 + C3 + C4 + C5
+    N ~~ R*E + R*A + R*C
+    E ~~ R*O + R*C
+    O ~~ R*A + R*C
+    A ~~ R*C
+&#39;
+
+Data_reversed &lt;- Data
+Data_reversed[, paste0(&#39;N&#39;, 1:5)] &lt;- 7 - Data[, paste0(&#39;N&#39;, 1:5)]
+
+m6_fit &lt;- cfa(m6_model, data=Data_reversed[, item_names], std.lv=TRUE)
+</code></pre>
+
+<p>The above model frees to up the correlation between E and A, and between O and N.</p>
+
+<pre><code class="r">round(cbind(m1 = inspect(m1_fit, &quot;fit.measures&quot;), m5 = inspect(m1_fit, 
+    &quot;fit.measures&quot;), m6 = inspect(m6_fit, &quot;fit.measures&quot;)), 3)
+</code></pre>
+
+<pre><code>##                           m1         m5         m6
+## chisq               4165.467   4165.467   4223.250
+## df                   265.000    265.000    272.000
+## pvalue                 0.000      0.000      0.000
+## baseline.chisq     18222.116  18222.116  18222.116
+## baseline.df          300.000    300.000    300.000
+## baseline.pvalue        0.000      0.000      0.000
+## cfi                    0.782      0.782      0.780
+## tli                    0.754      0.754      0.757
+## logl              -99840.238 -99840.238 -99869.130
+## unrestricted.logl -97757.504 -97757.504 -97757.504
+## npar                  60.000     60.000     53.000
+## aic               199800.476 199800.476 199844.259
+## bic               200148.363 200148.363 200151.559
+## ntotal              2436.000   2436.000   2436.000
+## bic2              199957.729 199957.729 199983.166
+## rmsea                  0.078      0.078      0.077
+## rmsea.ci.lower         0.076      0.076      0.075
+## rmsea.ci.upper         0.080      0.080      0.079
+## rmsea.pvalue           0.000      0.000      0.000
+## srmr                   0.075      0.075      0.077
+</code></pre>
+
+<pre><code class="r">anova(m1_fit, m6_fit)
+</code></pre>
+
+<pre><code>## Chi Square Difference Test
+## 
+##         Df   AIC   BIC Chisq Chisq diff Df diff Pr(&gt;Chisq)    
+## m1_fit 265 2e+05 2e+05  4165                                  
+## m6_fit 272 2e+05 2e+05  4223       57.8       7    4.2e-10 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1 
+</code></pre>
+
+<pre><code class="r">anova(m5_fit, m6_fit)
+</code></pre>
+
+<pre><code>## Chi Square Difference Test
+## 
+##         Df   AIC   BIC Chisq Chisq diff Df diff Pr(&gt;Chisq)    
+## m6_fit 272 2e+05 2e+05  4223                                  
+## m5_fit 274 2e+05 2e+05  4576        353       2     &lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1 
+</code></pre>
+
+<ul>
+<li>Freeing up these two correlations improved the model relative to the equality model. By most fit statistics, this model still provided a worse fit than the unconstrained model. However, interestingly, the RMSEA was slightly lower (i.e., better).</li>
+</ul>
+
+</body>
+
+</html>
+

@@ -1,0 +1,346 @@
+`r opts_chunk$set(cache=TRUE)`
+
+```{r get_data, message=FALSE}
+library(psych)
+library(lavaan)
+Data <- bfi
+item_names <- names(Data)[1:25]
+```
+
+# Check data
+
+```{r }
+sapply(Data[,item_names], function(X) sum(is.na(X)))
+
+Data$item_na <- apply(Data[,item_names], 1, function(X) sum(is.na(X)) > 0)
+
+table(Data$item_na)
+Data <- Data[!Data$item_na, ]
+```
+
+* I decided to remove data with missing data to simplify subsequent exploration of the features of the lavaan software.
+
+
+# Basic CFA
+```{r, tidy=FALSE}
+m1_model <- ' N =~ N1 + N2 + N3 + N4 + N5
+              E =~ E1 + E2 + E3 + E4 + E5
+              O =~ O1 + O2 + O3 + O4 + O5
+              A =~ A1 + A2 + A3 + A4 + A5
+              C =~ C1 + C2 + C3 + C4 + C5
+'
+
+m1_fit <- cfa(m1_model, data=Data[, item_names])
+summary(m1_fit, standardized=TRUE)
+```
+
+* **`Std.lv`**: Only latent variables have been standardized
+* **`Std.all`**: Observed and latent variables have been standardized. 
+* **Factor loadings**: Under the `latent variables` section, the `Std.all` column provides standardised factor loadings. 
+* **Factor correlations**: Under the `Covariances`  section, the `Std.all` column provides standardised factor loadings.
+* **`Variances`**: Latent factor variances can be constrained for identifiability purposes to be 1, but in this case, one of the loadings was constrained to be one. Variances for items represent the variance not explained by the latent factor.
+
+
+
+```{r demonstrate_variance_point}
+variances <- c(unique=subset(inspect(m1_fit, "standardizedsolution"), 
+       lhs == 'N1' & rhs == 'N1')[, 'est.std'],
+  common=subset(inspect(m1_fit, "standardizedsolution"), 
+       lhs == 'N' & rhs == 'N1')[, 'est.std']^2)
+(variances <- c(variances, total=sum(variances)))
+```
+
+* The output above illustrates the point about variances. Variance for each item is explained by either the common factor or by error variance. As there is just one latent factor loading on the item, the squared standardised coefficient is the variance explained by the common factor. The sum of the unique and common standardised variances is one, which naturally corresponds to the variance of a standardised variable.
+* The code also demonstrates ideas about how to extract specific information from the lavaan model fit object. Specifically, the `inspect` method provides access to a wide range of specific information. See help for further details.
+* I used the `subset` method to provide an easy one-liner for extracting elements from the data frame returned by the `inspect` method.
+
+```{r}
+variances <- c(N1_N1=subset(parameterestimates(m1_fit), 
+    lhs == 'N1' & rhs == 'N1')[, 'est'],
+               N_N=subset(parameterestimates(m1_fit), 
+    lhs == 'N' & rhs == 'N')[, 'est'],
+               N_N1=subset(parameterestimates(m1_fit), 
+    lhs == 'N' & rhs == 'N1')[, 'est'])
+
+cbind(parameters = c(variances, 
+               total=variances['N_N1'] * variances['N_N'] + variances['N1_N1'],
+            raw_divide_by_n_minus_1=var(Data[,'N1']),
+            raw_divide_by_n=mean((Data[,'N1'] - mean(Data[,'N1']))^2)))
+```
+
+* The output above shows the unstandardised parameters related to the item `N1`.
+* `N1_N1` corresponds to the unstandardised unique variance for the item.
+* `N_N` times `N_N1` represents the unstandardised common variance.
+* Thus, the sum of the unique and common variance represents the total variance.
+* When I calculated this on the raw data using the standard $n-1$ denominator, the value was slightly larger, but when I used $n$ as the denominator, the estimate was very close. 
+
+
+
+# Compare with a single factor model
+```{r, tidy=FALSE}
+m2_model <- ' G =~ N1 + N2 + N3 + N4 + N5
+              + E1 + E2 + E3 + E4 + E5
+              + O1 + O2 + O3 + O4 + O5
+              + A1 + A2 + A3 + A4 + A5
+              + C1 + C2 + C3 + C4 + C5
+'
+
+m2_fit <- cfa(m2_model, data=Data[, item_names])
+summary(m2_fit, standardized=TRUE)
+```
+
+```{r}
+round(cbind(m1=inspect(m1_fit, 'fit.measures'),
+      m2=inspect(m2_fit, 'fit.measures')), 3)
+anova(m1_fit, m2_fit)
+```
+
+* The output compares the model fit statistics for the two models.
+* It also performs a chi-square difference test which shows that a one-factor model has significantly worse fit than the two-factor model.
+
+
+# Modification indices
+```{r}
+m1_mod <- modificationindices(m1_fit)
+m1_mod_summary <- subset(m1_mod, mi > 100)
+m1_mod_summary[order(m1_mod_summary$mi, decreasing=TRUE), ]
+```
+
+* `modificationindices` suggests several ad hoc modifications that could be made to improve the fit of the model.
+* The largest index suggests that items `N1` and `N2` share common variance. If we look at the help file on the bfi dataset `?bfi`, we see tha the text for `N1` ("Get angry easily") and `N2` ("Get irritated easily") are very similar. 
+
+```{r}
+(N_cors <- round(cor(Data[, paste0('N', 1:5)]), 2))
+N1_N2_corr <- N_cors['N1', 'N2']
+other_N_corrs <- round(mean(abs(N_cors[lower.tri(N_cors)][-1])), 2)
+
+```
+
+* The correlation matrix also shows that the correlation N1 and N2 ($r = `r I(N1_N2_corr)`$) is much larger than it is for the other variables ($\text{mean}(|r|) = `r I(other_N_corrs)`$).
+
+# Various matrices
+## Observed, fitted, and residual covariance matrices
+The following analysis extracts observed, fitted, and residual covariances and checks that they are consistent with expectations. I only perform this for five items rather than the full 25 item set in order to make the point about demonstrating their meaning clearer.
+
+```{r}
+N_names <- paste0('N', 1:5)
+N_matrices <- list(
+    observed=inspect(m1_fit, 'sampstat')$cov[N_names, N_names],
+     fitted=fitted(m1_fit)$cov[N_names, N_names],
+     residual=resid(m1_fit)$cov[N_names, N_names])
+
+N_matrices$check <- N_matrices$observed - (N_matrices$fitted + N_matrices$residual)
+lapply(N_matrices, function(X) round(X, 3))
+```
+
+* The overved covariance matrix was extracted using the `cov` function on the sample data.
+* The fitted covariance matrix can be extracted using the `fitted` method on the model fit object and then extracting the cov
+* Many symmetric matrices in lavaan are of class `lavaan.matrix.symmetric`. This hides the upper triangle of the matrix and formats the matrix to `nd` decimal places.
+Run `getAnywhere(print.lavaan.matrix.symmetric)` to see more details.
+* The `sampstat` option in the `inspect` method can be used to extract the sample covariance matrix. This is similar, but not exactly the same as running `cov` on the sample data.
+* The `resid` method can be used to extract the residual covariance matrix
+* I then create a `check` that `observed = fitted - residual`, which it does.
+
+## Observed, fitted, and residual correlation matrices
+I often find it more meaningful to examine observed, fitted, and residual correlation matrices.  Standardisation often makes it easier to understand the real magnitude of any residual.
+
+```{r}
+N_names <- paste0('N', 1:5)
+N_cov <- list(
+    observed=inspect(m1_fit, 'sampstat')$cov[N_names, N_names],
+     fitted=fitted(m1_fit)$cov[N_names, N_names])
+
+N_cor <- list(
+    observed = cov2cor(N_cov$observed),
+    fitted = cov2cor(N_cov$fitted) )
+
+N_cor$residual <- N_cor$observed - N_cor$fitted
+
+lapply(N_cor, function(X) round(X, 2))
+```
+
+* `cov2cor` is a `base` R function that scales a covariance matrix into a correlation matrix.
+*  Fitted and observed correlation matrices can be obtained by running `cov2cor` on the corresponding covariance matrices.
+* The residual correlation matrix can be obtained by subtracting the fitted correlation matrix from the observed correlation matrix.
+* In this case we can see that the certain pairs of items correlate more or less than other pairs. In particular `N1-N2`, `N3-N4`, `N4-N5` have positive correlation residuals. An examination of the items below may suggest some added degree of similarity between these pairs of items. For example, N1 and N2 both concern anger and irritation, whereas N3 and N4 both concern mood and affect. 
+
+
+> N1: Get angry easily. (q_952)
+> N2: Get irritated easily. (q_974)
+> N3: Have frequent mood swings. (q_1099
+> N4: Often feel blue. (q_1479)
+> N5: Panic easily. (q_1505)
+
+# Uncorrelated factors
+## All Uncorrelated factors
+The following examines a mdoel with uncorrelated factors.
+
+```{r tidy=FALSE}
+m3_model <- ' N =~ N1 + N2 + N3 + N4 + N5
+              E =~ E1 + E2 + E3 + E4 + E5
+              O =~ O1 + O2 + O3 + O4 + O5
+              A =~ A1 + A2 + A3 + A4 + A5
+              C =~ C1 + C2 + C3 + C4 + C5
+'
+
+m3_fit <- cfa(m3_model, data=Data[, item_names], orthogonal=TRUE)
+
+round(cbind(m1=inspect(m1_fit, 'fit.measures'),
+      m3=inspect(m3_fit, 'fit.measures')), 3)
+anova(m1_fit, m3_fit)
+```
+
+* To convert a `cfa` model from one that permits fators to be correlated to one that constrains factors to be uncorrelated, just specify `orthogonal=TRUE`.
+* In this case constraining the factor covariances to all be zero led to a significant reduction in fit. This poorer fit can also be seen in measures like RMSEA (m1=
+`r round(inspect(m1_fit, 'fit.measures')['rmsea'], 3)`; 
+m2 = `r round(inspect(m3_fit, 'fit.measures')['rmsea'], 3)` ).
+
+
+## Correlations and covariances between factors
+It useful to be able to extract correlations and covaraiances between factors.
+
+```{r}
+inspect(m1_fit, 'coefficients')$psi
+cov2cor(inspect(m1_fit, 'coefficients')$psi)
+A_E_r <- cov2cor(inspect(m1_fit, 'coefficients')$psi)['A', 'E']
+```
+
+* This code first extracts the factor variances and covariances.
+* I assume that naming the element `psi` (i.e., $\psi$) is a reference to LISREL Matrix notation (see this discussion from [USP 655 SEM](http://www.upa.pdx.edu/IOA/newsom/semclass/ho_lisrel%20notation.pdf)).
+* Once again `cov2cor` is used to convert the covariance matrix to a correlation matrix.
+* An inspection of the values shows that there are some substantive correlations that helps to explain why constraining them to zero in an orthogonal model would have substantially damaged fit. For example, the correlation between extraversion (`E`) and agreeableness (`A`) was quite high ($r = `r I(round(A_E_r, 2))`$).
+
+
+```{r}
+# c('O', 'C', 'E', 'A', 'N') # set of factor names
+# lhs != rhs  # excludes factor variances
+subset(inspect(m1_fit, 'standardized'), 
+    rhs %in% c('O', 'C', 'E', 'A', 'N') & lhs != rhs)
+```
+
+* The same values can be extracted from the `standardized` coefficients table using the `inspect` method.
+
+We can also confirm that for the orthogonal model (`m3`) the correlations are zero.
+
+```{r}
+cov2cor(inspect(m3_fit, 'coefficients')$psi)
+```
+
+
+# Constrain factor correlations to be equal
+## Change constraints so that factor variances are one
+
+```{r tidy=FALSE}
+m4_model <- ' N =~ N1 + N2 + N3 + N4 + N5
+              E =~ E1 + E2 + E3 + E4 + E5
+              O =~ O1 + O2 + O3 + O4 + O5
+              A =~ A1 + A2 + A3 + A4 + A5
+              C =~ C1 + C2 + C3 + C4 + C5
+'
+
+m4_fit <- cfa(m4_model, data=Data[, item_names], std.lv=TRUE)
+
+inspect(m4_fit, 'coefficients')$psi
+inspect(m4_fit, 'coefficients')$psi
+```
+
+* `std.lv` is an argument that when `TRUE` standardises latent variables by fixing their variance to 1.0. The default is `FALSE` which instead constrains the first factor loading to 1.0.
+* This makes the covariance and the correlation matrix of the factors the same.
+
+We can see the differences in the loadings by comparing the loadings for the neuroticism factor: 
+
+```{r}
+head(parameterestimates(m4_fit), 5)
+head(parameterestimates(m1_fit), 5)
+
+# shows how ratio of loadings has not changed
+head(parameterestimates(m4_fit), 5)$est / head(parameterestimates(m4_fit), 5)$est[1]
+```
+
+
+
+## Add equality constraints
+```{r tidy=FALSE}
+m5_model <- ' N =~ N1 + N2 + N3 + N4 + N5
+              E =~ E1 + E2 + E3 + E4 + E5
+              O =~ O1 + O2 + O3 + O4 + O5
+              A =~ A1 + A2 + A3 + A4 + A5
+              C =~ C1 + C2 + C3 + C4 + C5
+    N ~~ R*E + R*O + R*A + R*C
+    E ~~ R*O + R*A + R*C
+    O ~~ R*A + R*C
+    A ~~ R*C
+'
+
+Data_reversed <- Data
+Data_reversed[, paste0('N', 1:5)] <- 7 - Data[, paste0('N', 1:5)]
+
+m5_fit <- cfa(m5_model, data=Data_reversed[, item_names], std.lv=TRUE)
+```
+
+* Equality constraints were added by labelling all the covariance parameters with a common label (i.e., `R`). 
+* `~~` stands for covariance.
+* `R*E` labels the parameter with the `E` variable with the label 
+* I reversed the neuroticism items and hence the factor to ensure that all the inter-item correlations were positive.
+
+The following output shows that the correlation/covariance is the same for all factor inter-correlations.
+
+```{r}
+inspect(m5_fit, 'coefficients')$psi
+```
+
+The following analysis compare the fit of the unconstrained with the equal-covariance model.
+
+```{r}
+round(cbind(m1=inspect(m1_fit, 'fit.measures'),
+      m5=inspect(m5_fit, 'fit.measures')), 3)
+anova(m1_fit, m5_fit)
+```
+
+* The unconstrained model provides a better fit both in terms of the chi-square difference test and when comparing various parisomony adjusted fit indices such as RMSEA. 
+* The difference is relatively small.
+
+The following summarises the correlations between variables (correlations with Neuroticism reversed).
+
+```{r }
+rs <- abs(inspect(m4_fit, 'coefficients')$psi)
+summary(rs[lower.tri(rs)])
+hist(rs[lower.tri(rs)])
+
+round(rs, 2)
+```
+
+* Given the very large sample size, even small variations in sample correlations likely reflect true variation.
+* However, in particular, the correlation between E and A is much larger than the average correlation, and the correlation between O and N is much smaller than the average correlation.
+
+## Add equality constraints with some post hoc modifications
+```{r tidy=FALSE}
+m6_model <- ' N =~ N1 + N2 + N3 + N4 + N5
+              E =~ E1 + E2 + E3 + E4 + E5
+              O =~ O1 + O2 + O3 + O4 + O5
+              A =~ A1 + A2 + A3 + A4 + A5
+              C =~ C1 + C2 + C3 + C4 + C5
+    N ~~ R*E + R*A + R*C
+    E ~~ R*O + R*C
+    O ~~ R*A + R*C
+    A ~~ R*C
+'
+
+Data_reversed <- Data
+Data_reversed[, paste0('N', 1:5)] <- 7 - Data[, paste0('N', 1:5)]
+
+m6_fit <- cfa(m6_model, data=Data_reversed[, item_names], std.lv=TRUE)
+```
+
+The above model frees to up the correlation between E and A, and between O and N.
+
+```{r}
+round(cbind(m1=inspect(m1_fit, 'fit.measures'),
+            m5=inspect(m1_fit, 'fit.measures'),
+      m6=inspect(m6_fit, 'fit.measures')), 3)
+anova(m1_fit, m6_fit)
+anova(m5_fit, m6_fit)
+```
+
+* Freeing up these two correlations improved the model relative to the equality model. By most fit statistics, this model still provided a worse fit than the unconstrained model. However, interestingly, the RMSEA was slightly lower (i.e., better).
+

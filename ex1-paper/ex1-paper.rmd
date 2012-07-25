@@ -1,0 +1,137 @@
+This exercise examines the first example shown in 
+<http://www.jstatsoft.org/v48/i02/paper>.
+It's a three-factor confirmatory factor analysis example with three items per factor.
+All three latent factors are permitted to correlate.
+
+* `x1` to `x3` load on a `visual` factor
+* `x4` to `x6` load on a `textual` factor
+* `x7` to `x9` load on a `speed` factor
+
+```{r setup, message=FALSE}
+library('lavaan')
+library('Hmisc')
+cases <- HolzingerSwineford1939
+```
+
+# Quick examination of data
+
+```{r }
+str(cases)
+Hmisc::describe(cases)
+```
+
+The data set include `r nrow(cases)` observations. It includes a few demographic variables (e.g., sex, age in years and months, school, and grade). It includes nine variables  that are the observed test scores used in the subsequent CFA.
+
+# Fit CFA
+```{r fit_m1}
+m1_model <- ' visual  =~ x1 + x2 + x3
+              textual =~ x4 + x5 + x6
+              speed   =~ x7 + x8 + x9
+'
+
+m1_fit <- cfa(m1_model, data=cases)
+
+```
+
+* model syntax is specified as a character variable
+* `cfa` is one model fitting function in `lavaan`. The command includes many options. Data can be specified as a data frame, as it is here using the `data` argument. Alternatively covariance matrix, vector of means, and sample size can be specified.
+* From what I can tell, `lavaan` is the parent model fitting function that can take a `model.type` argument of `'cfa'`, `'sem'`, or `'growth'`. Thus, the arguments to `model.type` are functions themselves which just call `lavaan` with particular argument values.
+
+## Show parameter table
+```{r}
+parTable(m1_fit)
+```
+
+* What do the columns mean?
+    * `id`: numeric identifier for the parameter
+    * `lhs`: left hand side variable name
+    * `op`: operator (see page 7 of http://www.jstatsoft.org/v48/i02/paper); `=~` 
+    is manifested by; `~~` is correlated with.
+    * `rhs`: right hand side variable name
+    * `user`: 1 if parameter was specified by the user, 0 otherwise
+    * `group`: presumably used in multiple group analysis
+    * `free`: Nonzero elements are free parameters in the model
+    * `ustart`: The value specified for fixed parameters
+    * `exo`: ???
+    * `label`: Probably just an optional label???
+    * `eq.id`: ??? 
+    * `unco`: ???
+
+
+* The model syntax used in `lavaan` incorporates a lot of parameters by default to permit a tidy model syntax. The exact nature of these parameters is also determined by options in the `cfa`, `sem` and other model fitting fucntions.
+* `parTable` is a method
+
+It shows that the latent factors are allowed to intercorrelate. The `cfa` function has an an argument `orthogonal`. It defaults to FALSE which permits correlated factors.
+
+```{r}
+parTable(cfa(m1_model, data=cases, orthogonal=TRUE))[22:24, ]
+```
+When `orthogonal=TRUE` is specified, the covariance of latent factors is constrained to zero. This is reflected in `free=0` (i.e., it's not free to vary) and `ustart=0` (the constrained value is zero) in the parameter table.
+
+Returning to the original parameter table:
+
+* Variance parameters (`op=~~` where `lhs` is the same as `rhs`) are included for all observed and latent variables.
+
+## Summarise fit
+```{r}
+summary(m1_fit)
+```
+
+The default `summary` method shows $\chi^2$, $df$, p-value for the overall model, unstandardised parameter estimates, in some cases with significance tests.
+
+
+## Getting fit statistics
+There are multiple ways of getting fit statistics
+
+```{r}
+fitMeasures(m1_fit)
+# equivalent to:
+# inspect(m1_fit, 'fit.measures')
+
+fitMeasures(m1_fit)['rmsea']
+fitMeasures(m1_fit, c('rmsea', 'rmsea.ci.lower', 'rmsea.ci.upper'))
+
+
+summary(m1_fit, fit.measures=TRUE)
+```
+
+
+* I assume that lavaan uses S4 classes which makes extracting elements a little different to S3 classes.
+* The above code shows how to extract fit measures.
+* While it is not clear hear, it appears that `rmsea.ci.lower` and `rmsea.ci.upper` refer to 90% lower and upper confidence intervals.
+* Adding `fit.measures=TRUE` provides a way of displaying 
+
+
+## Modification indices
+```{r}
+m1_mod <- modificationIndices(m1_fit)
+head(m1_mod[order(m1_mod$mi, decreasing=TRUE), ], 10)
+```
+
+* The `modificationIndices` function returns modification indices and expected parameter changes (EPCs). 
+* The second line above sorts the rows of the modification indices table in decreasing order and shows those parameters with the 10 largest values.
+
+```{r}
+m2_model <- ' visual  =~ x1 + x2 + x3 + x9
+              textual =~ x4 + x5 + x6
+              speed   =~ x7 + x8 + x9
+'
+
+m2_fit <- cfa(m2_model, data=cases)
+anova(m1_fit, m2_fit)
+```
+
+* Note that more than one empty line at the end of the model definition seems to cause an error.
+* TODO: Work out why the change in $\chi^2$ 
+`r anova(m1_fit, m2_fit)[2, 'Chisq diff']`
+is different to the value of the modification index
+`r m1_mod[m1_mod$lhs == 'visual' &  m1_mod$rhs == 'x9', 'mi']`.
+
+## Standardised parameters
+```{r}
+summary(m1_fit)
+standardizedSolution(m1_fit)
+```
+
+
+

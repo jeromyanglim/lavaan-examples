@@ -1,0 +1,76 @@
+# Example 2 from the Rossel's Paper on lavaan
+```{r}
+library(lavaan)
+Data <- PoliticalDemocracy
+```
+
+This example is an elaboration on Example 2 from Yves Rossel's Journal of Statistical Software Article (see [here](http://www.jstatsoft.org/v48/i02/paper)).
+
+# Basic SEM
+```{r}
+m0_model <- '
+# measurement model
+ind60 =~ x1 + x2 + x3
+dem60 =~ y1 + y2 + y3 + y4
+dem65 =~ y5 + y6 + y7 + y8
+'
+
+m0_fit <- cfa(m1_model, data=Data)
+```
+
+* `m0` defines a basic measurement model that permits correlated factors. Note that it does not have correlations between corresponding democracy indicator measures over time.
+
+Questions:
+
+* Is it a good model?
+
+```{r}
+fitmeasures(m0_fit)
+```
+
+* cfi suggests a reasonable model, but RMSEA is quite large.
+
+```{r}
+inspect(m0_fit, 'standardized')
+```
+
+* The table of standardised loadings show all factor loadings to be large.
+
+```{r}
+m0_mod <- modificationindices(m0_fit)
+head(m0_mod[order(m0_mod$mi, decreasing=TRUE), ], 12)
+```
+
+* The table of largest modification indices suggest a range of ways that the model could be improved. Because the sample size is small, particular caution needs to be taken with these.
+* Several of these modifications concern the expected requirement to permit indicator variables at different time points to correlate (e.g., `y2` with `y6`, `y3` with `y7`).
+* It may also be that 
+
+
+
+* What are the correlations between the factors?
+
+
+
+```{r}
+m1_model <- '
+# measurement model
+ind60 =~ x1 + x2 + x3
+dem60 =~ y1 + y2 + y3 + y4
+dem65 =~ y5 + y6 + y7 + y8
+
+# regressions
+dem60 ~ ind60
+dem65 ~ ind60 + dem60
+'
+
+m1_fit <- sem(m1_model, data=Data)
+```
+
+
+```{r}
+summary(m1_fit)
+inspect(m1_fit, 'standardized')
+inspect(m1_fit, 'r2')[c('dem60', 'dem65')]
+
+```
+
