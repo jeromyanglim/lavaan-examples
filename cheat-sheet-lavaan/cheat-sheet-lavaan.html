@@ -1,0 +1,265 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0014)about:internet -->
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+<title>Assumptions</title>
+
+<base target="_blank"/>
+
+<style type="text/css">
+body, td {
+   font-family: sans-serif;
+   background-color: white;
+   font-size: 12px;
+   margin: 8px;
+}
+
+tt, code, pre {
+   font-family: 'DejaVu Sans Mono', 'Droid Sans Mono', 'Lucida Console', Consolas, Monaco, monospace;
+}
+
+h1 { 
+   font-size:2.2em; 
+}
+
+h2 { 
+   font-size:1.8em; 
+}
+
+h3 { 
+   font-size:1.4em; 
+}
+
+h4 { 
+   font-size:1.0em; 
+}
+
+h5 { 
+   font-size:0.9em; 
+}
+
+h6 { 
+   font-size:0.8em; 
+}
+
+a:visited {
+   color: rgb(50%, 0%, 50%);
+}
+
+pre {	
+   margin-top: 0;
+   max-width: 95%;
+   border: 1px solid #ccc;
+}
+
+pre code {
+   display: block; padding: 0.5em;
+}
+
+code.r {
+   background-color: #F8F8F8;
+}
+
+table, td, th {
+  border: none;
+}
+
+blockquote {
+   color:#666666;
+   margin:0;
+   padding-left: 1em;
+   border-left: 0.5em #EEE solid;
+}
+
+hr {
+   height: 0px;
+   border-bottom: none;
+   border-top-width: thin;
+   border-top-style: dotted;
+   border-top-color: #999999;
+}
+
+@media print {
+   * { 
+      background: transparent !important; 
+      color: black !important; 
+      filter:none !important; 
+      -ms-filter: none !important; 
+   }
+
+   body { 
+      font-size:12pt; 
+      max-width:100%; 
+   }
+       
+   a, a:visited { 
+      text-decoration: underline; 
+   }
+
+   hr { 
+      visibility: hidden;
+      page-break-before: always;
+   }
+
+   pre, blockquote { 
+      padding-right: 1em; 
+      page-break-inside: avoid; 
+   }
+
+   tr, img { 
+      page-break-inside: avoid; 
+   }
+
+   img { 
+      max-width: 100% !important; 
+   }
+
+   @page :left { 
+      margin: 15mm 20mm 15mm 10mm; 
+   }
+     
+   @page :right { 
+      margin: 15mm 10mm 15mm 20mm; 
+   }
+
+   p, h2, h3 { 
+      orphans: 3; widows: 3; 
+   }
+
+   h2, h3 { 
+      page-break-after: avoid; 
+   }
+}
+
+</style>
+
+
+
+
+
+</head>
+
+<body>
+<h1>Assumptions</h1>
+
+<ul>
+<li><code>fit</code> is an object of class <code>lavaan</code> typically returned from functions <code>cfa</code>, <code>sem</code>, <code>growth</code>, and <code>lavaan</code></li>
+<li><code>m1_fit</code> and <code>m2_fit</code> are used for showing model comparison of <code>lavaan</code> objects.</li>
+<li></li>
+</ul>
+
+<h1>Commands</h1>
+
+<h1>Matrices</h1>
+
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Command</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Factor covariance matrix</td>
+<td><code>inspect(fit, &quot;coefficients&quot;)$psi</code></td>
+</tr>
+<tr>
+<td>Fitted covariance matrix</td>
+<td><code>fitted(m1_fit)$cov</code></td>
+</tr>
+<tr>
+<td>Observed covariance matrix</td>
+<td><code>inspect(m1_fit, &#39;sampstat&#39;)$cov</code></td>
+</tr>
+<tr>
+<td>Residual covariance matrix</td>
+<td><code>resid(fit)$cov</code></td>
+</tr>
+<tr>
+<td>Factor correlation matrix</td>
+<td><code>cov2cor(inspect(fit, &quot;coefficients&quot;)$psi)</code> or use covariance command with standardised solution e.g.,  <code>cfa(..., std.ov=TRUE)</code></td>
+</tr>
+</tbody></table>
+
+<h1>Fit Measures</h1>
+
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Command</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Fit measures:</td>
+<td><code>fitMeasures(fit)</code></td>
+</tr>
+<tr>
+<td>Specific fit measures e.g.:</td>
+<td><code>fitMeasures(fit)[c(&#39;chisq&#39;, &#39;df&#39;, &#39;pvalue&#39;, &#39;cfi&#39;, &#39;rmsea&#39;, &#39;srmr&#39;)]</code></td>
+</tr>
+</tbody></table>
+
+<h1>Parameters</h1>
+
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Command</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Parameter information</td>
+<td><code>parTable(fit)</code></td>
+</tr>
+<tr>
+<td>Standardised estimates</td>
+<td><code>standardizedSolution(fit)</code> or <code>summary(m1_fit, standardized=TRUE)</code></td>
+</tr>
+</tbody></table>
+
+<h1>Compare models</h1>
+
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Command</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Compare fit measures</td>
+<td><code>cbind(m1=inspect(m1_fit, &#39;fit.measures&#39;), m2=inspect(m2_fit, &#39;fit.measures&#39;))</code></td>
+</tr>
+<tr>
+<td>Chi-square difference test</td>
+<td><code>anova(m1_fit, m2_fit)</code></td>
+</tr>
+</tbody></table>
+
+<h1>Model improvement</h1>
+
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Command</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Modification indices</td>
+<td><code>mod_ind &lt;- modificationindices(fit)</code></td>
+</tr>
+<tr>
+<td>10 greatest</td>
+<td><code>head(mod_ind[order(mod_ind$mi, decreasing=TRUE), ], 10)</code></td>
+</tr>
+<tr>
+<td>mi &gt; 5</td>
+<td><code>subset(mod_ind[order(mod_ind$mi, decreasing=TRUE), ], mi &gt; 5)</code></td>
+</tr>
+</tbody></table>
+
+</body>
+
+</html>
+

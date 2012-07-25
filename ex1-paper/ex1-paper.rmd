@@ -1,3 +1,4 @@
+`r opts_chunk$set(tidy=FALSE)`
 This exercise examines the first example shown in 
 <http://www.jstatsoft.org/v48/i02/paper>.
 It's a three-factor confirmatory factor analysis example with three items per factor.

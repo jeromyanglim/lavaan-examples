@@ -195,8 +195,8 @@ All three latent factors are permitted to correlate.</p>
 <li><code>x7</code> to <code>x9</code> load on a <code>speed</code> factor</li>
 </ul>
 
-<pre><code class="r">library(&quot;lavaan&quot;)
-library(&quot;Hmisc&quot;)
+<pre><code class="r">library(&#39;lavaan&#39;)
+library(&#39;Hmisc&#39;)
 cases &lt;- HolzingerSwineford1939
 </code></pre>
 
@@ -359,9 +359,12 @@ cases &lt;- HolzingerSwineford1939
 
 <h1>Fit CFA</h1>
 
-<pre><code class="r">m1_model &lt;- &quot; visual  =~ x1 + x2 + x3\ntextual =~ x4 + x5 + x6\nspeed   =~ x7 + x8 + x9\n&quot;
+<pre><code class="r">m1_model &lt;- &#39; visual  =~ x1 + x2 + x3
+              textual =~ x4 + x5 + x6
+              speed   =~ x7 + x8 + x9
+&#39;
 
-m1_fit &lt;- cfa(m1_model, data = cases)
+m1_fit &lt;- cfa(m1_model, data=cases)
 </code></pre>
 
 <ul>
@@ -426,7 +429,7 @@ is manifested by; <code>~~</code> is correlated with.</li>
 
 <p>It shows that the latent factors are allowed to intercorrelate. The <code>cfa</code> function has an an argument <code>orthogonal</code>. It defaults to FALSE which permits correlated factors.</p>
 
-<pre><code class="r">parTable(cfa(m1_model, data = cases, orthogonal = TRUE))[22:24, ]
+<pre><code class="r">parTable(cfa(m1_model, data=cases, orthogonal=TRUE))[22:24, ]
 </code></pre>
 
 <pre><code>##    id     lhs op     rhs user group free ustart exo label eq.id unco
@@ -521,16 +524,17 @@ is manifested by; <code>~~</code> is correlated with.</li>
 ##             0.071             0.114             0.001             0.065 
 </code></pre>
 
-<pre><code class="r"># equivalent to: inspect(m1_fit, &#39;fit.measures&#39;)
+<pre><code class="r"># equivalent to:
+# inspect(m1_fit, &#39;fit.measures&#39;)
 
-fitMeasures(m1_fit)[&quot;rmsea&quot;]
+fitMeasures(m1_fit)[&#39;rmsea&#39;]
 </code></pre>
 
 <pre><code>##   rmsea 
 ## 0.09212 
 </code></pre>
 
-<pre><code class="r">fitMeasures(m1_fit, c(&quot;rmsea&quot;, &quot;rmsea.ci.lower&quot;, &quot;rmsea.ci.upper&quot;))
+<pre><code class="r">fitMeasures(m1_fit, c(&#39;rmsea&#39;, &#39;rmsea.ci.lower&#39;, &#39;rmsea.ci.upper&#39;))
 </code></pre>
 
 <pre><code>##          rmsea rmsea.ci.lower rmsea.ci.upper 
@@ -539,7 +543,7 @@ fitMeasures(m1_fit)[&quot;rmsea&quot;]
 
 <pre><code class="r">
 
-summary(m1_fit, fit.measures = TRUE)
+summary(m1_fit, fit.measures=TRUE)
 </code></pre>
 
 <pre><code>## lavaan (0.4-14) converged normally after 41 iterations
@@ -635,7 +639,7 @@ summary(m1_fit, fit.measures = TRUE)
 <h2>Modification indices</h2>
 
 <pre><code class="r">m1_mod &lt;- modificationIndices(m1_fit)
-head(m1_mod[order(m1_mod$mi, decreasing = TRUE), ], 10)
+head(m1_mod[order(m1_mod$mi, decreasing=TRUE), ], 10)
 </code></pre>
 
 <pre><code>##        lhs op rhs     mi    epc sepc.lv sepc.all sepc.nox
@@ -656,9 +660,12 @@ head(m1_mod[order(m1_mod$mi, decreasing = TRUE), ], 10)
 <li>The second line above sorts the rows of the modification indices table in decreasing order and shows those parameters with the 10 largest values.</li>
 </ul>
 
-<pre><code class="r">m2_model &lt;- &quot; visual  =~ x1 + x2 + x3 + x9\ntextual =~ x4 + x5 + x6\nspeed   =~ x7 + x8 + x9\n&quot;
+<pre><code class="r">m2_model &lt;- &#39; visual  =~ x1 + x2 + x3 + x9
+              textual =~ x4 + x5 + x6
+              speed   =~ x7 + x8 + x9
+&#39;
 
-m2_fit &lt;- cfa(m2_model, data = cases)
+m2_fit &lt;- cfa(m2_model, data=cases)
 anova(m1_fit, m2_fit)
 </code></pre>
 

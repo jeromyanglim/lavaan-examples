@@ -188,16 +188,18 @@ m3_fit <- cfa(m3_model, data=Data[, item_names], orthogonal=TRUE)
 round(cbind(m1=inspect(m1_fit, 'fit.measures'),
       m3=inspect(m3_fit, 'fit.measures')), 3)
 anova(m1_fit, m3_fit)
+
+rmsea_m1 <-  round(inspect(m1_fit, 'fit.measures')['rmsea'], 3)
+rmsea_m3 <-  round(inspect(m3_fit, 'fit.measures')['rmsea'], 3)
 ```
 
 * To convert a `cfa` model from one that permits fators to be correlated to one that constrains factors to be uncorrelated, just specify `orthogonal=TRUE`.
 * In this case constraining the factor covariances to all be zero led to a significant reduction in fit. This poorer fit can also be seen in measures like RMSEA (m1=
-`r round(inspect(m1_fit, 'fit.measures')['rmsea'], 3)`; 
-m2 = `r round(inspect(m3_fit, 'fit.measures')['rmsea'], 3)` ).
+`r rmsea_m1`; m3 = `r rmsea_m3` ).
 
 
 ## Correlations and covariances between factors
-It useful to be able to extract correlations and covaraiances between factors.
+It is useful to be able to extract correlations and covaraiances between factors.
 
 ```{r}
 inspect(m1_fit, 'coefficients')$psi
@@ -343,4 +345,3 @@ anova(m5_fit, m6_fit)
 ```
 
 * Freeing up these two correlations improved the model relative to the equality model. By most fit statistics, this model still provided a worse fit than the unconstrained model. However, interestingly, the RMSEA was slightly lower (i.e., better).
-

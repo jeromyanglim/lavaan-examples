@@ -1,3 +1,4 @@
+
 This exercise examines the first example shown in 
 <http://www.jstatsoft.org/v48/i02/paper>.
 It's a three-factor confirmatory factor analysis example with three items per factor.
@@ -10,8 +11,8 @@ All three latent factors are permitted to correlate.
 
 
 ```r
-library("lavaan")
-library("Hmisc")
+library('lavaan')
+library('Hmisc')
 cases <- HolzingerSwineford1939
 ```
 
@@ -188,9 +189,12 @@ The data set include `301` observations. It includes a few demographic variables
 
 
 ```r
-m1_model <- " visual  =~ x1 + x2 + x3\ntextual =~ x4 + x5 + x6\nspeed   =~ x7 + x8 + x9\n"
+m1_model <- ' visual  =~ x1 + x2 + x3
+              textual =~ x4 + x5 + x6
+              speed   =~ x7 + x8 + x9
+'
 
-m1_fit <- cfa(m1_model, data = cases)
+m1_fit <- cfa(m1_model, data=cases)
 ```
 
 
@@ -262,7 +266,7 @@ It shows that the latent factors are allowed to intercorrelate. The `cfa` functi
 
 
 ```r
-parTable(cfa(m1_model, data = cases, orthogonal = TRUE))[22:24, ]
+parTable(cfa(m1_model, data=cases, orthogonal=TRUE))[22:24, ]
 ```
 
 ```
@@ -369,9 +373,10 @@ fitMeasures(m1_fit)
 ```
 
 ```r
-# equivalent to: inspect(m1_fit, 'fit.measures')
+# equivalent to:
+# inspect(m1_fit, 'fit.measures')
 
-fitMeasures(m1_fit)["rmsea"]
+fitMeasures(m1_fit)['rmsea']
 ```
 
 ```
@@ -380,7 +385,7 @@ fitMeasures(m1_fit)["rmsea"]
 ```
 
 ```r
-fitMeasures(m1_fit, c("rmsea", "rmsea.ci.lower", "rmsea.ci.upper"))
+fitMeasures(m1_fit, c('rmsea', 'rmsea.ci.lower', 'rmsea.ci.upper'))
 ```
 
 ```
@@ -391,7 +396,7 @@ fitMeasures(m1_fit, c("rmsea", "rmsea.ci.lower", "rmsea.ci.upper"))
 ```r
 
 
-summary(m1_fit, fit.measures = TRUE)
+summary(m1_fit, fit.measures=TRUE)
 ```
 
 ```
@@ -493,7 +498,7 @@ summary(m1_fit, fit.measures = TRUE)
 
 ```r
 m1_mod <- modificationIndices(m1_fit)
-head(m1_mod[order(m1_mod$mi, decreasing = TRUE), ], 10)
+head(m1_mod[order(m1_mod$mi, decreasing=TRUE), ], 10)
 ```
 
 ```
@@ -519,9 +524,12 @@ head(m1_mod[order(m1_mod$mi, decreasing = TRUE), ], 10)
 
 
 ```r
-m2_model <- " visual  =~ x1 + x2 + x3 + x9\ntextual =~ x4 + x5 + x6\nspeed   =~ x7 + x8 + x9\n"
+m2_model <- ' visual  =~ x1 + x2 + x3 + x9
+              textual =~ x4 + x5 + x6
+              speed   =~ x7 + x8 + x9
+'
 
-m2_fit <- cfa(m2_model, data = cases)
+m2_fit <- cfa(m2_model, data=cases)
 anova(m1_fit, m2_fit)
 ```
 
@@ -635,6 +643,9 @@ standardizedSolution(m1_fit)
 ## 23  visual ~~   speed   0.471 NA NA     NA
 ## 24 textual ~~   speed   0.283 NA NA     NA
 ```
+
+
+
 
 
 

@@ -727,29 +727,20 @@ round(cbind(m1=inspect(m1_fit, &#39;fit.measures&#39;),
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1 
 </code></pre>
 
+<pre><code class="r">
+rmsea_m1 &lt;-  round(inspect(m1_fit, &#39;fit.measures&#39;)[&#39;rmsea&#39;], 3)
+rmsea_m3 &lt;-  round(inspect(m3_fit, &#39;fit.measures&#39;)[&#39;rmsea&#39;], 3)
+</code></pre>
+
 <ul>
 <li>To convert a <code>cfa</code> model from one that permits fators to be correlated to one that constrains factors to be uncorrelated, just specify <code>orthogonal=TRUE</code>.</li>
-<li>In this case constraining the factor covariances to all be zero led to a significant reduction in fit. This poorer fit can also be seen in measures like RMSEA (m1=</li>
+<li>In this case constraining the factor covariances to all be zero led to a significant reduction in fit. This poorer fit can also be seen in measures like RMSEA (m1=
+<code>0.078</code>; m3 = <code>0.089</code> ).</li>
 </ul>
-
-<pre><code>
-Error in eval(expr, envir, enclos) : could not find function &quot;inspect&quot;
-
-</code></pre>
-
-<p>; <br/>
-m2 = </p>
-
-<pre><code>
-Error in eval(expr, envir, enclos) : could not find function &quot;inspect&quot;
-
-</code></pre>
-
-<p>).</p>
 
 <h2>Correlations and covariances between factors</h2>
 
-<p>It useful to be able to extract correlations and covaraiances between factors.</p>
+<p>It is useful to be able to extract correlations and covaraiances between factors.</p>
 
 <pre><code class="r">inspect(m1_fit, &quot;coefficients&quot;)$psi
 </code></pre>
