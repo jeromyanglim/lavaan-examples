@@ -1,7 +1,7 @@
 # Assumptions
 * `fit` is an object of class `lavaan` typically returned from functions `cfa`, `sem`, `growth`, and `lavaan`
 * `m1_fit` and `m2_fit` are used for showing model comparison of `lavaan` objects.
-* `
+
 
 
 # Commands
@@ -11,8 +11,8 @@
 | Name | Command |
 -------| -------------
 Factor covariance matrix | `inspect(fit, "coefficients")$psi`
-Fitted covariance matrix | `fitted(m1_fit)$cov`
-Observed covariance matrix | `inspect(m1_fit, 'sampstat')$cov`
+Fitted covariance matrix | `fitted(fit)$cov`
+Observed covariance matrix | `inspect(fit, 'sampstat')$cov`
 Residual covariance matrix | `resid(fit)$cov`
 Factor correlation matrix | `cov2cor(inspect(fit, "coefficients")$psi)` or use covariance command with standardised solution e.g.,  `cfa(..., std.ov=TRUE)` 
 # Fit Measures
@@ -26,7 +26,7 @@ Specific fit measures e.g.: | `fitMeasures(fit)[c('chisq', 'df', 'pvalue', 'cfi'
 | Name | Command |
 -------| -------------
 Parameter information | `parTable(fit)`
-Standardised estimates | `standardizedSolution(fit)` or `summary(m1_fit, standardized=TRUE)`
+Standardised estimates | `standardizedSolution(fit)` or `summary(fit, standardized=TRUE)`
 
 
 
