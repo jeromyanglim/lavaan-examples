@@ -28,6 +28,7 @@ Fitted covariance matrix | `fitted(fit)$cov`
 Observed covariance matrix | `inspect(fit, 'sampstat')$cov`
 Residual covariance matrix | `resid(fit)$cov`
 Factor correlation matrix | `cov2cor(inspect(fit, "coefficients")$psi)` or use covariance command with standardised solution e.g.,  `cfa(..., std.ov=TRUE)` 
+Residual correlation matrix
 
 ## Fit Measures
 | Name | Command |
@@ -40,8 +41,8 @@ Specific fit measures e.g.: | `fitMeasures(fit)[c('chisq', 'df', 'pvalue', 'cfi'
 | Name | Command |
 -------| -------------
 Parameter information | `parTable(fit)`
-Standardised estimates | `standardizedSolution(fit)` or `summary(fit, standardized=TRUE)`
-
+Standardised estimates | `parameterestimates(m1_fit, standardized=TRUE)` or `standardizedSolution(fit)` or `summary(fit, standardized=TRUE)` or `inspect(fit, 'std.coef')`
+Unstandardised estimates | `parameterestimates(fit)` or `coef(fit)`
 R-squared | `inspect(fit, 'r2')`
 
 

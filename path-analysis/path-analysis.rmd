@@ -1,0 +1,105 @@
+`r opts_chunk$set(cache=TRUE, tidy=FALSE)`
+
+# Path Analysis Example
+```{r, message=FALSE}
+library(psych)
+library(lavaan)
+
+```
+
+
+## Simulate data
+Let's simulate some data:
+
+* three orthogonal predictor variables
+* one mediator variable
+* one dependent variable
+
+```{r}
+set.seed(1234)
+N <- 1000
+iv1 <- rnorm(N, 0, 1)
+iv2 <- rnorm(N, 0, 1)
+iv3 <- rnorm(N, 0, 1)
+mv <- rnorm(N, .2 * iv1 + -.2 * iv2 + .3 * iv3, 1)
+dv <- rnorm(N, .8 * mv, 1)
+data_1 <- data.frame(iv1, iv2, iv3, mv, dv)
+```
+
+## Traditional examination of dataset
+* Is a regression consistent with the model?
+
+```{r}
+summary(lm(mv ~ iv1 + iv2 + iv3, data_1))
+```
+
+This is broadly similar to the equation predicting `mv`.
+
+```{r}
+summary(lm(dv ~ iv1 + iv2 + iv3 + mv, data_1))
+```
+Given that the simulation is based on complete mediation, the true regression coefficients for the ivs are zero. The results of the multiple regression predicting the `dv` from the `iv`s and `mv` is consistent with this.
+
+What are the basic descriptive statistics and intercorrelations?
+
+```{r}
+psych::describe(data_1)
+pairs.panels(data_1, pch='.')
+```
+
+
+## M1 Fit Path Analysis model
+
+```{r}
+m1_model <- '
+dv ~ mv
+mv ~ iv1 + iv2 + iv3
+'
+
+m1_fit <- sem(m1_model, data=data_1)
+```
+
+Are the regression coefficients the same?
+
+```{r}
+parameterestimates(m1_fit)
+```
+
+All the coefficients are in the ball park of what is expected.
+
+Does the model provide a good fit?
+```{r}
+fitmeasures(m1_fit)
+```
+
+* The fitted model should provide a good fit because the fitted model is identical to the model used to simulate the data.
+* In this case, the p-value and the fit measures are consistent with the data being generated from the model specified.
+
+
+## Calculate and test indirect effects
+```{r}
+m2_model <- '
+    dv ~ b1*mv
+    mv ~ a1*iv1 + a2*iv2 + a3*iv3
+    
+    # indirect effects
+    iv1_mv := a1*b1
+    iv2_mv := a2*b1
+    iv3_mv := a3*b1
+'
+
+m2_fit <- sem(m2_model, data=data_1)
+```
+
+* Note that I needed to name effects before I could define the indirect effect as the product of two effects using `:=` notation.
+
+
+```{r}
+parameterestimates(m2_fit, standardize=TRUE)
+
+```
+
+The above output provide a significance test, and confidence intervals for the indirect effects, and includes standardised effects.
+
+
+

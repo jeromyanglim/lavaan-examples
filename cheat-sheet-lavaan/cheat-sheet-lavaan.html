@@ -5,7 +5,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
-<title>Assumptions</title>
+<title>Lavaan Cheat Sheet</title>
 
 <base target="_blank"/>
 
@@ -143,17 +143,52 @@ hr {
 </head>
 
 <body>
-<h1>Assumptions</h1>
+<h1>Lavaan Cheat Sheet</h1>
+
+<h2>Assumptions</h2>
 
 <ul>
+<li><code>Data</code> is data frame</li>
+<li><code>model</code> is the lavaan model syntax character variable</li>
 <li><code>fit</code> is an object of class <code>lavaan</code> typically returned from functions <code>cfa</code>, <code>sem</code>, <code>growth</code>, and <code>lavaan</code></li>
 <li><code>m1_fit</code> and <code>m2_fit</code> are used for showing model comparison of <code>lavaan</code> objects.</li>
-<li></li>
 </ul>
 
-<h1>Commands</h1>
+<h2>Documentation tips</h2>
 
-<h1>Matrices</h1>
+<ul>
+<li>Introduction: <a href="http://users.ugent.be/%7Eyrosseel/lavaan/lavaanIntroduction.pdf">http://users.ugent.be/~yrosseel/lavaan/lavaanIntroduction.pdf</a></li>
+<li>Basic model commmands: <code>?cfa ?sem ?lavaan</code>: </li>
+<li>Extracting elements: <code>?inspect</code></li>
+</ul>
+
+<h2>Model fitting</h2>
+
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Command</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>fit CFA to data</td>
+<td><code>cfa(model, data=Data)</code></td>
+</tr>
+<tr>
+<td>fit SEM to data</td>
+<td><code>sem(model, data=Data)</code></td>
+</tr>
+<tr>
+<td>standardised solution</td>
+<td><code>sem(model, data=Data, std.ov=TRUE)</code></td>
+</tr>
+<tr>
+<td>orthogonal factors</td>
+<td><code>cfa(model, data=Data, orthogonal=TRUE)</code></td>
+</tr>
+</tbody></table>
+
+<h2>Matrices</h2>
 
 <table><thead>
 <tr>
@@ -167,11 +202,11 @@ hr {
 </tr>
 <tr>
 <td>Fitted covariance matrix</td>
-<td><code>fitted(m1_fit)$cov</code></td>
+<td><code>fitted(fit)$cov</code></td>
 </tr>
 <tr>
 <td>Observed covariance matrix</td>
-<td><code>inspect(m1_fit, &#39;sampstat&#39;)$cov</code></td>
+<td><code>inspect(fit, &#39;sampstat&#39;)$cov</code></td>
 </tr>
 <tr>
 <td>Residual covariance matrix</td>
@@ -183,7 +218,7 @@ hr {
 </tr>
 </tbody></table>
 
-<h1>Fit Measures</h1>
+<h2>Fit Measures</h2>
 
 <table><thead>
 <tr>
@@ -201,7 +236,7 @@ hr {
 </tr>
 </tbody></table>
 
-<h1>Parameters</h1>
+<h2>Parameters</h2>
 
 <table><thead>
 <tr>
@@ -215,11 +250,13 @@ hr {
 </tr>
 <tr>
 <td>Standardised estimates</td>
-<td><code>standardizedSolution(fit)</code> or <code>summary(m1_fit, standardized=TRUE)</code></td>
+<td><code>standardizedSolution(fit)</code> or <code>summary(fit, standardized=TRUE)</code></td>
 </tr>
 </tbody></table>
 
-<h1>Compare models</h1>
+<p>R-squared | <code>inspect(fit, &#39;r2&#39;)</code></p>
+
+<h2>Compare models</h2>
 
 <table><thead>
 <tr>
@@ -237,7 +274,7 @@ hr {
 </tr>
 </tbody></table>
 
-<h1>Model improvement</h1>
+<h2>Model improvement</h2>
 
 <table><thead>
 <tr>

@@ -5,7 +5,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
-<title>Quick examination of data</title>
+<title>Example 1 from Lavaan</title>
 
 <base target="_blank"/>
 
@@ -184,6 +184,8 @@ hljs.initHighlightingOnLoad();
 </head>
 
 <body>
+<h1>Example 1 from Lavaan</h1>
+
 <p>This exercise examines the first example shown in <br/>
 <a href="http://www.jstatsoft.org/v48/i02/paper">http://www.jstatsoft.org/v48/i02/paper</a>.<br/>
 It&#39;s a three-factor confirmatory factor analysis example with three items per factor.<br/>
@@ -200,7 +202,7 @@ library(&#39;Hmisc&#39;)
 cases &lt;- HolzingerSwineford1939
 </code></pre>
 
-<h1>Quick examination of data</h1>
+<h2>Quick examination of data</h2>
 
 <pre><code class="r">str(cases)
 </code></pre>
@@ -357,7 +359,7 @@ cases &lt;- HolzingerSwineford1939
 
 <p>The data set include <code>301</code> observations. It includes a few demographic variables (e.g., sex, age in years and months, school, and grade). It includes nine variables  that are the observed test scores used in the subsequent CFA.</p>
 
-<h1>Fit CFA</h1>
+<h2>Fit CFA</h2>
 
 <pre><code class="r">m1_model &lt;- &#39; visual  =~ x1 + x2 + x3
               textual =~ x4 + x5 + x6

@@ -1,3 +1,4 @@
+# Example 1 from Lavaan
 `r opts_chunk$set(tidy=FALSE)`
 This exercise examines the first example shown in 
 <http://www.jstatsoft.org/v48/i02/paper>.
@@ -14,7 +15,7 @@ library('Hmisc')
 cases <- HolzingerSwineford1939
 ```
 
-# Quick examination of data
+## Quick examination of data
 
 ```{r }
 str(cases)
@@ -23,7 +24,7 @@ Hmisc::describe(cases)
 
 The data set include `r nrow(cases)` observations. It includes a few demographic variables (e.g., sex, age in years and months, school, and grade). It includes nine variables  that are the observed test scores used in the subsequent CFA.
 
-# Fit CFA
+## Fit CFA
 ```{r fit_m1}
 m1_model <- ' visual  =~ x1 + x2 + x3
               textual =~ x4 + x5 + x6
@@ -31,7 +32,6 @@ m1_model <- ' visual  =~ x1 + x2 + x3
 '
 
 m1_fit <- cfa(m1_model, data=cases)
-
 ```
 
 * model syntax is specified as a character variable

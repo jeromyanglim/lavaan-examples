@@ -1,4 +1,4 @@
-
+# CFA Example
 
 
 
@@ -12,7 +12,7 @@ item_names <- names(Data)[1:25]
 
 
 
-# Check data
+## Check data
 
 
 
@@ -49,7 +49,7 @@ Data <- Data[!Data$item_na, ]
 * I decided to remove data with missing data to simplify subsequent exploration of the features of the lavaan software.
 
 
-# Basic CFA
+## Basic CFA
 
 
 ```r
@@ -228,7 +228,7 @@ cbind(parameters = c(variances, total = variances["N_N1"] * variances["N_N"] +
 
 
 
-# Compare with a single factor model
+## Compare with a single factor model
 
 
 ```r
@@ -372,7 +372,7 @@ anova(m1_fit, m2_fit)
 * It also performs a chi-square difference test which shows that a one-factor model has significantly worse fit than the two-factor model.
 
 
-# Modification indices
+## Modification indices
 
 
 ```r
@@ -431,8 +431,8 @@ other_N_corrs <- round(mean(abs(N_cors[lower.tri(N_cors)][-1])),
 
 * The correlation matrix also shows that the correlation N1 and N2 ($r = 0.72$) is much larger than it is for the other variables ($\text{mean}(|r|) = 0.44$).
 
-# Various matrices
-## Observed, fitted, and residual covariance matrices
+## Various matrices
+### Observed, fitted, and residual covariance matrices
 The following analysis extracts observed, fitted, and residual covariances and checks that they are consistent with expectations. I only perform this for five items rather than the full 25 item set in order to make the point about demonstrating their meaning clearer.
 
 
@@ -493,7 +493,7 @@ Run `getAnywhere(print.lavaan.matrix.symmetric)` to see more details.
 * The `resid` method can be used to extract the residual covariance matrix
 * I then create a `check` that `observed = fitted - residual`, which it does.
 
-## Observed, fitted, and residual correlation matrices
+### Observed, fitted, and residual correlation matrices
 I often find it more meaningful to examine observed, fitted, and residual correlation matrices.  Standardisation often makes it easier to understand the real magnitude of any residual.
 
 
@@ -552,8 +552,8 @@ lapply(N_cor, function(X) round(X, 2))
 > N4: Often feel blue. (q_1479)
 > N5: Panic easily. (q_1505)
 
-# Uncorrelated factors
-## All Uncorrelated factors
+## Uncorrelated factors
+### All Uncorrelated factors
 The following examines a mdoel with uncorrelated factors.
 
 
@@ -624,7 +624,7 @@ rmsea_m3 <-  round(inspect(m3_fit, 'fit.measures')['rmsea'], 3)
 `0.078`; m3 = `0.089` ).
 
 
-## Correlations and covariances between factors
+### Correlations and covariances between factors
 It is useful to be able to extract correlations and covaraiances between factors.
 
 
@@ -717,8 +717,8 @@ cov2cor(inspect(m3_fit, "coefficients")$psi)
 
 
 
-# Constrain factor correlations to be equal
-## Change constraints so that factor variances are one
+## Constrain factor correlations to be equal
+### Change constraints so that factor variances are one
 
 
 
@@ -809,7 +809,7 @@ head(parameterestimates(m4_fit), 5)$est/head(parameterestimates(m4_fit),
 
 
 
-## Add equality constraints
+### Add equality constraints
 
 
 ```r
@@ -951,7 +951,7 @@ round(rs, 2)
 * Given the very large sample size, even small variations in sample correlations likely reflect true variation.
 * However, in particular, the correlation between E and A is much larger than the average correlation, and the correlation between O and N is much smaller than the average correlation.
 
-## Add equality constraints with some post hoc modifications
+### Add equality constraints with some post hoc modifications
 
 
 ```r
@@ -975,7 +975,7 @@ m6_fit <- cfa(m6_model, data=Data_reversed[, item_names], std.lv=TRUE)
 
 
 
-The above model frees to up the correlation between E and A, and between O and N.
+The above model frees up the correlation between E and A, and between O and N.
 
 
 
@@ -1040,3 +1040,71 @@ anova(m5_fit, m6_fit)
 
 
 * Freeing up these two correlations improved the model relative to the equality model. By most fit statistics, this model still provided a worse fit than the unconstrained model. However, interestingly, the RMSEA was slightly lower (i.e., better).
+
+### Add equality constraints without reversal
+In section 5.5 of the [Lavaan introductory guide 0.4-13](http://users.ugent.be/~yrosseel/lavaan/lavaanIntroduction.pdf) it talks about various types of equality constraints. Thus, instead of reversing the neuroticism factor, it is possible to directly constrain covariances of neuroticism with each other factor to be the opposite of the covariances.
+
+
+
+```r
+m7_model <- ' N =~ N1 + N2 + N3 + N4 + N5
+              E =~ E1 + E2 + E3 + E4 + E5
+              O =~ O1 + O2 + O3 + O4 + O5
+              A =~ A1 + A2 + A3 + A4 + A5
+              C =~ C1 + C2 + C3 + C4 + C5
+    # covariances
+    N ~~ R1*E + R1*O + R1*A + R1*C
+    E ~~ R2*O + R2*A + R2*C
+    O ~~ R2*A + R2*C
+    A ~~ R2*C
+    
+    # constraints
+    R1 == 0 - R2
+'
+
+m7_fit <- cfa(m7_model, data=Data[, item_names], std.lv=TRUE)
+```
+
+
+
+
+Let's check that the results are the same whether we reverse data or set negative constraints.
+
+
+
+
+
+```r
+m5_fit
+```
+
+```
+## lavaan (0.4-14) converged normally after 43 iterations
+## 
+##   Number of observations                          2436
+## 
+##   Estimator                                         ML
+##   Minimum Function Chi-square                 4576.170
+##   Degrees of freedom                               274
+##   P-value                                        0.000
+## 
+```
+
+```r
+m7_fit
+```
+
+```
+## lavaan (0.4-14) converged normally after 283 iterations
+## 
+##   Number of observations                          2436
+## 
+##   Estimator                                         ML
+##   Minimum Function Chi-square                 4576.170
+##   Degrees of freedom                               274
+##   P-value                                        0.000
+## 
+```
+
+
+

@@ -188,7 +188,7 @@ Data &lt;- PoliticalDemocracy
 
 <p>This example is an elaboration on Example 2 from Yves Rossel&#39;s Journal of Statistical Software Article (see <a href="http://www.jstatsoft.org/v48/i02/paper">here</a>).</p>
 
-<h1>Basic SEM</h1>
+<h2>M0: Basic Measurement model</h2>
 
 <pre><code class="r">m0_model &lt;- &#39;
 # measurement model
@@ -315,21 +315,161 @@ head(m0_mod[order(m0_mod$mi, decreasing=TRUE), ], 12)
 ## dem65 0.555 0.978 1.000
 </code></pre>
 
-<pre><code class="r">m1_model &lt;- &#39;
-# measurement model
-ind60 =~ x1 + x2 + x3
-dem60 =~ y1 + y2 + y3 + y4
-dem65 =~ y5 + y6 + y7 + y8
+<p>This certainly suggests that factors are strongly related, especially the two demographics measures.</p>
 
-# regressions
-dem60 ~ ind60
-dem65 ~ ind60 + dem60
+<h2>M1: Correlated item measurement model</h2>
+
+<p>This next model permits corresponding democracy measures from the two points to be correlated.</p>
+
+<pre><code class="r">m1_model &lt;- &#39;
+    # measurement model
+    ind60 =~ x1 + x2 + x3
+    dem60 =~ y1 + y2 + y3 + y4
+    dem65 =~ y5 + y6 + y7 + y8
+
+    # correlated residuals
+    y1 ~~ y5
+    y2 ~~ y6
+    y3 ~~ y7
+    y4 ~~ y8
 &#39;
 
-m1_fit &lt;- sem(m1_model, data=Data)
+m1_fit &lt;- cfa(m1_model, data=Data)
 </code></pre>
 
-<pre><code class="r">#summary(m1_fit)#inspect(m1_fit, &#39;standardized&#39;)#inspect(m1_fit, &#39;r2&#39;)[c(&#39;dem60&#39;, &#39;dem65&#39;)]
+<ul>
+<li>Is this an improvement over <code>m0</code> with uncorrelated indicators?</li>
+<li>Does <code>m1</code> have good fit in and of itself?</li>
+</ul>
+
+<pre><code class="r">anova(m0_fit, m1_fit)
+</code></pre>
+
+<pre><code>## Chi Square Difference Test
+## 
+##        Df  AIC  BIC Chisq Chisq diff Df diff Pr(&gt;Chisq)    
+## m1_fit 37 3166 3233  50.8                                  
+## m0_fit 41 3180 3238  72.5       21.6       4    0.00024 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1 
+</code></pre>
+
+<pre><code class="r">round(cbind(m0=inspect(m0_fit, &#39;fit.measures&#39;), 
+            m1=inspect(m1_fit, &#39;fit.measures&#39;)), 3)
+</code></pre>
+
+<pre><code>##                          m0        m1
+## chisq                72.462    50.835
+## df                   41.000    37.000
+## pvalue                0.002     0.064
+## baseline.chisq      730.654   730.654
+## baseline.df          55.000    55.000
+## baseline.pvalue       0.000     0.000
+## cfi                   0.953     0.980
+## tli                   0.938     0.970
+## logl              -1564.959 -1554.146
+## unrestricted.logl -1528.728 -1528.728
+## npar                 25.000    29.000
+## aic                3179.918  3166.292
+## bic                3237.855  3233.499
+## ntotal               75.000    75.000
+## bic2               3159.062  3142.099
+## rmsea                 0.101     0.071
+## rmsea.ci.lower        0.061     0.000
+## rmsea.ci.upper        0.139     0.115
+## rmsea.pvalue          0.021     0.234
+## srmr                  0.055     0.050
+</code></pre>
+
+<ul>
+<li>It is a significant improvement. </li>
+<li>RMSEA and other fit measurs are substantially improved.</li>
+<li>The relatively small sample size makes it somewhat difficult to see how much further improvements should continue. In general, the RMSEA suggests that further improvements are possible but it may be less clear on how to proceed in a principled way.</li>
+</ul>
+
+<h1>M2: Basic SEM</h1>
+
+<pre><code class="r">m2_model &lt;- &#39;
+    # measurement model
+    ind60 =~ x1 + x2 + x3
+    dem60 =~ y1 + y2 + y3 + y4
+    dem65 =~ y5 + y6 + y7 + y8
+
+    # correlated residuals
+    y1 ~~ y5
+    y2 ~~ y6
+    y3 ~~ y7
+    y4 ~~ y8
+
+    # regressions
+    dem60 ~ ind60
+    dem65 ~ ind60 + dem60
+&#39;
+
+m2_fit &lt;- sem(m2_model, data=Data)
+</code></pre>
+
+<ul>
+<li>Is fit the same as model 1 as I would expect?</li>
+</ul>
+
+<pre><code class="r">rbind(m1 = fitMeasures(m1_fit)[c(&#39;chisq&#39;, &#39;rmsea&#39;)], 
+    m2 = fitMeasures(m2_fit)[c(&#39;chisq&#39;, &#39;rmsea&#39;)])
+</code></pre>
+
+<pre><code>##    chisq   rmsea
+## m1 50.84 0.07061
+## m2 50.84 0.07061
+</code></pre>
+
+<p>Yes, it is.</p>
+
+<ul>
+<li>Assuming democracy 1965 is the depenent variable, how can we get the information typically available in multiple regression output?
+
+<ul>
+<li>R-squared?</li>
+<li>Unstandardised regression coefficients?</li>
+<li>Standardised regression coefficients?</li>
+<li>Standard errors, p-values,  and confidence intervals on unstandardised coefficients?</li>
+</ul></li>
+</ul>
+
+<pre><code class="r"># m2_fit &lt;- sem(m2_model, data=Data)
+
+# r-square for dem-65
+inspect(m2_fit, &#39;r2&#39;)[&#39;dem65&#39;]
+</code></pre>
+
+<pre><code>##  dem65 
+## 0.9139 
+</code></pre>
+
+<pre><code class="r">
+# Unstandardised regression coefficients
+inspect(m2_fit, &#39;coef&#39;)$beta[&#39;dem65&#39;, ]
+</code></pre>
+
+<pre><code>##  ind60  dem60  dem65 
+## 0.5069 0.8157 0.0000 
+</code></pre>
+
+<pre><code class="r">
+# Standardised regression coefficients
+subset(inspect(m2_fit, &#39;standardized&#39;), lhs == &#39;dem65&#39; &amp; op == &#39;~&#39;)
+</code></pre>
+
+<pre><code>##     lhs op   rhs est.std se  z pvalue
+## 1 dem65  ~ ind60   0.168 NA NA     NA
+## 2 dem65  ~ dem60   0.869 NA NA     NA
+</code></pre>
+
+<pre><code class="r">
+# Just a guess, may not be correct:
+# coefs &lt;- data.frame(coef=inspect(m2_fit, &#39;coef&#39;)$beta[&#39;dem65&#39;, ],
+#       se=inspect(m2_fit, &#39;se&#39;)$beta[&#39;dem65&#39;, ])
+# coefs$low95ci &lt;- coefs$coef - coefs$se * 1.96
+# coefs$high95ci &lt;- coefs$coef + coefs$se * 1.96
 </code></pre>
 
 </body>

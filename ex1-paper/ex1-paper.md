@@ -1,3 +1,4 @@
+# Example 1 from Lavaan
 
 This exercise examines the first example shown in 
 <http://www.jstatsoft.org/v48/i02/paper>.
@@ -19,7 +20,7 @@ cases <- HolzingerSwineford1939
 
 
 
-# Quick examination of data
+## Quick examination of data
 
 
 
@@ -185,7 +186,7 @@ Hmisc::describe(cases)
 
 The data set include `301` observations. It includes a few demographic variables (e.g., sex, age in years and months, school, and grade). It includes nine variables  that are the observed test scores used in the subsequent CFA.
 
-# Fit CFA
+## Fit CFA
 
 
 ```r
